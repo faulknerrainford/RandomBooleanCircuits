@@ -239,7 +239,7 @@ class TestTruthTableAnalyser(TestCase):
 
     def test_three_point_circuit_dist(self):
         analyser = TruthTableAnalyser("TestData.csv")
-        analyser.three_point_circuit_dist()
+        analyser.truth_cc_boxplot()
         plt.show()
 
     def test_tt_by_circuit(self):

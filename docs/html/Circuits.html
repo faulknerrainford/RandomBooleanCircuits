@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Circuits &mdash; RandomBooleanCircuits 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Novelty Search" href="NoveltySearch.html" />
+    <link rel="prev" title="Replication" href="Replication.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RandomBooleanCircuits
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Setup.html">Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Replication.html">Replication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Circuits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#circuit">Circuit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.Circuit.Circuit"><code class="docutils literal notranslate"><span class="pre">Circuit</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#RandomBooleanCircuits.source.Circuit.Circuit.run"><code class="docutils literal notranslate"><span class="pre">Circuit.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#circuitexplorer">CircuitExplorer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer"><code class="docutils literal notranslate"><span class="pre">CircuitExplorer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.gen_binary_strings"><code class="docutils literal notranslate"><span class="pre">CircuitExplorer.gen_binary_strings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run"><code class="docutils literal notranslate"><span class="pre">CircuitExplorer.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run_single"><code class="docutils literal notranslate"><span class="pre">CircuitExplorer.run_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.set_parameters"><code class="docutils literal notranslate"><span class="pre">CircuitExplorer.set_parameters()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="NoveltySearch.html">Novelty Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analysis.html">Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RandomBooleanCircuits</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Circuits</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Circuits.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="circuits">
+<h1>Circuits<a class="headerlink" href="#circuits" title="Permalink to this heading"></a></h1>
+<p>The circuits are implemented in two classes. The first, circuit, implements the circuit based on the CGP representation and runs it in responce to an input. The second implements the ability to “knock-out” or modify the circuit for the NS.</p>
+<section id="circuit">
+<h2>Circuit<a class="headerlink" href="#circuit" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.Circuit.Circuit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.Circuit.</span></span><span class="sig-name descname"><span class="pre">Circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/Circuit.html#Circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.Circuit.Circuit" title="Permalink to this definition"></a></dt>
+<dd><p>Boolean circuits implemented using the representation from: Miller, Julian F., and Others. 1999.
+“An Empirical Study of the Efficiency of Learning Boolean Functions Using a Cartesian Genetic Programming Approach.”
+In Proceedings of the Genetic and Evolutionary Computation Conference, 2:1135–42. researchgate.net.</p>
+<p>In this version we list gates with the following properties:</p>
+<dl class="simple">
+<dt>0</dt><dd><p>Buffer input 1</p>
+</dd>
+<dt>1</dt><dd><p>AND gate</p>
+</dd>
+<dt>2</dt><dd><p>NAND gate</p>
+</dd>
+<dt>3</dt><dd><p>OR gate</p>
+</dd>
+<dt>4</dt><dd><p>NOR gate</p>
+</dd>
+<dt>5</dt><dd><p>XOR gate</p>
+</dd>
+<dt>6</dt><dd><p>NXOR gate</p>
+</dd>
+</dl>
+<p>So a circuit_description is listed as &lt;Inputs&gt; &lt;Gates&gt; &lt;Outputs&gt;</p>
+<dl class="simple">
+<dt>&lt;Inputs&gt;</dt><dd><p>Incremental integer labeling of original inputs.</p>
+</dd>
+<dt>&lt;Gates&gt;</dt><dd><p>Each gate is a list &lt;Input 1, Input 2, Gate Type, Output&gt; where output is the next incremental
+integer and the gate type is taken from the above list.</p>
+</dd>
+<dt>&lt;Outputs&gt;</dt><dd><p>Integer list of the values to be read out of the circuit_description.</p>
+</dd>
+</dl>
+<p>Example for a single AND gate circuit_description: [(0, 1) (0, 1, 1, 2) (2)] where 0 and 1 are the
+circuit_description and gate inputs, the gate type is AND=1, and the gate and circuit_description output is 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>circuit_string</strong> (<em>String</em>) – Input string of tuples in the &lt;Inputs&gt; &lt;Gates&gt; &lt;Outputs&gt; format.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.Circuit.Circuit.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/Circuit.html#Circuit.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.Circuit.Circuit.run" title="Permalink to this definition"></a></dt>
+<dd><p>Operates the circuit_description on a given set of inputs and returns a list of values from the listed outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parameters</strong> (<em>List&lt;Integer&gt;</em>) – List of 0 or 1 values representing the value of each input, must be same length as input list. Will default
+to all 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of 0 or 1 values read from the given list of outputs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List&lt;Integer&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="circuitexplorer">
+<h2>CircuitExplorer<a class="headerlink" href="#circuitexplorer" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.CircuitExplorer.</span></span><span class="sig-name descname"><span class="pre">CircuitExplorer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/CircuitExplorer.html#CircuitExplorer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer" title="Permalink to this definition"></a></dt>
+<dd><p>CircuitExplorer can test a given input or the full range of possible inputs to a circuit_description.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<em>int</em>) – The number of inputs into the circuit_description</p></li>
+<li><p><strong>gates</strong> (<em>list&lt;list&lt;int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>, </em><em>int&gt;&gt;</em>) – The list of the gates given as: [inputA, inputB, gateType, output]</p></li>
+<li><p><strong>outputs</strong> (<em>list&lt;ints&gt;</em>) – The list of outputs from the circuit_description by integer label</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.gen_binary_strings">
+<span class="sig-name descname"><span class="pre">gen_binary_strings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/CircuitExplorer.html#CircuitExplorer.gen_binary_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.gen_binary_strings" title="Permalink to this definition"></a></dt>
+<dd><p>Generates the full set of possible binary strings of the same length as the inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The list of all binary strings of length input count.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list&lt;String&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/CircuitExplorer.html#CircuitExplorer.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run" title="Permalink to this definition"></a></dt>
+<dd><p>Takes a set of parameters for gate activity (inactive gates buffer first input) and runs all possible inputs to
+produce truth table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parameters</strong> (<em>list&lt;0/1&gt;</em>) – List of binary values with length equal to gates. Indicates activation of gates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of binary results of outputs from each possible input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list&lt;list&lt;0/1&gt;&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run_single">
+<span class="sig-name descname"><span class="pre">run_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/CircuitExplorer.html#CircuitExplorer.run_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run_single" title="Permalink to this definition"></a></dt>
+<dd><p>Takes a set of parameters for gate activity (inactive gates buffer first input) and run the given input on the
+resultant circuit_description and returns the list of outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<em>list&lt;0/1&gt;</em>) – The list of binary inputs must be the same length as input count.</p></li>
+<li><p><strong>parameters</strong> (<em>list&lt;0/1&gt;</em>) – List of binary values with length equal to gates. Indicates activation of gates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of outputs take from the labelled variables given in circuit_description.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list&lt;0/1&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.set_parameters">
+<span class="sig-name descname"><span class="pre">set_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/CircuitExplorer.html#CircuitExplorer.set_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.set_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Takes a set of parameters and modifies the circuit_description gates based on 0 values for gates (changes them to buffer
+first input) returns an updated gate list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parameters</strong> (<em>list&lt;0/1&gt;</em>) – List length of gates indicating if a gate is active (1) and no modified or inactive (0) and replaced with
+a buffer on the first input.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A modified version of the gate list with the correct gates replaced.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list&lt;list&lt;int, int, int, int&gt;&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Replication.html" class="btn btn-neutral float-left" title="Replication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NoveltySearch.html" class="btn btn-neutral float-right" title="Novelty Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Penn Faulkner Rainford.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

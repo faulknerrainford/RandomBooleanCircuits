@@ -31,6 +31,22 @@ gate_2  :   IntGAParameterSpec(0,1)
     The gate is active (1) or inactive (0)
 gate_3  :   IntGAParameterSpec(0,1)
     The gate is active (1) or inactive (0)
+gate_4  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_5  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_6  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_7  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_8  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_9  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_10  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
+gate_11  :   IntGAParameterSpec(0,1)
+    The gate is active (1) or inactive (0)
 """
 RBCParamSpec: Dict[str, GAParameterSpec] = {
     'gate_0': IntGAParameterSpec(0, 1),
@@ -84,6 +100,22 @@ class RBCSystem(System):
         indicates if gate 2 is active or a buffer for its first input_vals
     gate_3  :   int
         indicates if gate 3 is active or a buffer for its first input_vals
+    gate_4  :   int
+        indicates if gate 4 is active or a buffer for its first input_vals
+    gate_5  :   int
+        indicates if gate 5 is active or a buffer for its first input_vals
+    gate_6  :   int
+        indicates if gate 4 is active or a buffer for its first input_vals
+    gate_7  :   int
+        indicates if gate 5 is active or a buffer for its first input_vals
+    gate_8  :   int
+        indicates if gate 4 is active or a buffer for its first input_vals
+    gate_9  :   int
+        indicates if gate 5 is active or a buffer for its first input_vals
+    gate_10 :   int
+        indicates if gate 4 is active or a buffer for its first input_vals
+    gate_11 :   int
+        indicates if gate 5 is active or a buffer for its first input_vals
     circuitSettings : list<int, list<list<int>>, list<int>>
         The settings for the circuit_description, [Input count, Gate descriptions, Output values]
     """
@@ -110,6 +142,9 @@ class RBCSystem(System):
         self.circuit = CircuitExplorer(self.circuitSettings[0], self.circuitSettings[1], self.circuitSettings[2])
 
     def train(self, train_input: npt.NDArray[np.floating], train_output: npt.NDArray[np.floating]) -> None:
+        """
+        Unused in this instance
+        """
         pass
 
     def run_one(self, input_vals: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:
@@ -319,7 +354,7 @@ def save_results(dataframe, filename):
 
 
 """
-Main functionality running all possible 4 gates with the given wiring using only "AND" and "OR" gates.
+Main functionality running all possible 12 gates with the given wiring using only "AND" and "OR" gates.
 """
 if __name__ == "__main__":
     circuit_settings = [

@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: RandomBooleanCircuits-FaulknerRainford
+Version: 0.0.1
+Summary: A small package to produce random boolean circuits
+Home-page: 
+Author: Penn Faulkner Rainford
+Author-email: Penn Faulkner Rainford <penn.rainford@york.ac.uk>
+License: GLP v3
+Project-URL: Homepage, https://github.com/faulknerrainford/RandomBooleanCircuits
+Project-URL: Bug Tracker, https://github.com/faulnerrainford/RandomBooleanCircuits/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GLP v3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown

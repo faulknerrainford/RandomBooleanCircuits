@@ -63,6 +63,10 @@ class RBCSystem(System):
     In this version we list gate types as follows:
     0   -   Buffer input 1
     1   -   AND gate
+    gate_4  :   int
+        indicates if gate 4 is active or a buffer for its first input_vals
+    gate_5  :   int
+        indicates if gate 5 is active or a buffer for its first input_vals
     2   -   NAND gate
     3   -   OR gate
     4   -   NOR gate
@@ -103,6 +107,9 @@ class RBCSystem(System):
         self.circuit = CircuitExplorer(self.circuitSettings[0], self.circuitSettings[1], self.circuitSettings[2])
 
     def train(self, train_input: npt.NDArray[np.floating], train_output: npt.NDArray[np.floating]) -> None:
+        """
+        Unused in this instance.
+        """
         pass
 
     def run_one(self, input_vals: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:
@@ -194,8 +201,8 @@ def make_subclass(circuit):
 
 def circuit_search(settings):
     """
-    Takes a text based description of the gates in the circuit_description and sets up the circuit_description settings before generating a
-    search object for it using MicrobialGA.
+    Takes a text based description of the gates in the circuit_description and sets up the circuit_description settings
+    before generating a search object for it using MicrobialGA.
 
     Parameters
     ----------
@@ -242,8 +249,9 @@ def circuit_search(settings):
 
 def add_search_results(settings, results, dataframe):
     """
-    Convert search population metrics and final population values to dataframe rows with circuit_description description and
-    parameter settings as well as the truth table output and whether a circuit_description is in the final population.
+    Convert search population metrics and final population values to dataframe rows with circuit_description
+    description and parameter settings as well as the truth table output and whether a circuit_description is in the
+    final population.
 
     Parameters
     ----------
@@ -299,7 +307,7 @@ def save_results(dataframe, filename):
 
 
 """
-Main functionality running all possible 4 gates with the given wiring using only "AND" and "OR" gates.
+Main functionality running all possible 6 gates with the given wiring using only "AND" and "OR" gates.
 """
 if __name__ == "__main__":
     circuit_settings = [

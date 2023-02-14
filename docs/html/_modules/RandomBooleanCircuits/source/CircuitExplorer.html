@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RandomBooleanCircuits.source.CircuitExplorer &mdash; RandomBooleanCircuits 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RandomBooleanCircuits
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Setup.html">Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Replication.html">Replication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Circuits.html">Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../NoveltySearch.html">Novelty Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Analysis.html">Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RandomBooleanCircuits</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">RandomBooleanCircuits.source.CircuitExplorer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for RandomBooleanCircuits.source.CircuitExplorer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">RandomBooleanCircuits</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+
+<div class="viewcode-block" id="CircuitExplorer"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer">[docs]</a><span class="k">class</span> <span class="nc">CircuitExplorer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CircuitExplorer can test a given input or the full range of possible inputs to a circuit_description.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputs  :   int</span>
+<span class="sd">        The number of inputs into the circuit_description</span>
+<span class="sd">    gates   :   list&lt;list&lt;int, int, int, int&gt;&gt;</span>
+<span class="sd">        The list of the gates given as: [inputA, inputB, gateType, output]</span>
+<span class="sd">    outputs :   list&lt;ints&gt;</span>
+<span class="sd">        The list of outputs from the circuit_description by integer label</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+        <span class="c1"># set up circuit_description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gates</span> <span class="o">=</span> <span class="n">gates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span> <span class="o">=</span> <span class="n">inputs</span>
+        <span class="n">circuit_input</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="n">circuit_input</span> <span class="o">=</span> <span class="n">circuit_input</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">circuit_input</span> <span class="o">=</span> <span class="n">circuit_input</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+        <span class="n">circuit_output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">pass</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">circuit_output</span> <span class="o">=</span> <span class="n">circuit_output</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">circuit_output</span> <span class="o">=</span> <span class="n">circuit_output</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">circuit_output</span> <span class="o">=</span> <span class="n">circuit_output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_binary_strings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="CircuitExplorer.run"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a set of parameters for gate activity (inactive gates buffer first input) and runs all possible inputs to</span>
+<span class="sd">        produce truth table.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parameters  :   list&lt;0/1&gt;</span>
+<span class="sd">            List of binary values with length equal to gates. Indicates activation of gates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list&lt;list&lt;0/1&gt;&gt;</span>
+<span class="sd">            List of binary results of outputs from each possible input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># turn gates off by replacing gates with zero based on parameters</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circuit_input</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuit_output</span><span class="p">)</span>
+        <span class="c1"># run all inputs on circuit_description and return an ordered truth table</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bit_string</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_values</span><span class="p">:</span>
+            <span class="n">truth_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">bit_string</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">truth_table</span></div>
+
+<div class="viewcode-block" id="CircuitExplorer.run_single"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.run_single">[docs]</a>    <span class="k">def</span> <span class="nf">run_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a set of parameters for gate activity (inactive gates buffer first input) and run the given input on the</span>
+<span class="sd">        resultant circuit_description and returns the list of outputs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        inputs  :   list&lt;0/1&gt;</span>
+<span class="sd">            The list of binary inputs must be the same length as input count.</span>
+<span class="sd">        parameters  :   list&lt;0/1&gt;</span>
+<span class="sd">            List of binary values with length equal to gates. Indicates activation of gates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list&lt;0/1&gt;</span>
+<span class="sd">            List of outputs take from the labelled variables given in circuit_description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circuit_input</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuit_output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">circuit</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CircuitExplorer.set_parameters"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a set of parameters and modifies the circuit_description gates based on 0 values for gates (changes them to buffer</span>
+<span class="sd">        first input) returns an updated gate list.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parameters  :   list&lt;0/1&gt;</span>
+<span class="sd">            List length of gates indicating if a gate is active (1) and no modified or inactive (0) and replaced with</span>
+<span class="sd">            a buffer on the first input.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list&lt;list&lt;int, int, int, int&gt;&gt;</span>
+<span class="sd">            A modified version of the gate list with the correct gates replaced.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># turn gates off by replacing gates with zero based on parameters</span>
+        <span class="n">run_gates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">p</span><span class="p">]):</span>
+                <span class="n">run_gates</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">run_gates</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># generate circuit_description with correct gates and input output</span>
+        <span class="n">circuit_gates</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">run_gates</span><span class="p">:</span>
+            <span class="n">circuit_gates</span> <span class="o">=</span> <span class="n">circuit_gates</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> \
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+        <span class="k">return</span> <span class="n">circuit_gates</span></div>
+
+<div class="viewcode-block" id="CircuitExplorer.gen_binary_strings"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.CircuitExplorer.CircuitExplorer.gen_binary_strings">[docs]</a>    <span class="k">def</span> <span class="nf">gen_binary_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the full set of possible binary strings of the same length as the inputs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list&lt;String&gt;</span>
+<span class="sd">            The list of all binary strings of length input count.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># set up input based on input length as all possible inputs</span>
+        <span class="n">binary_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_count</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">binary_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;0&quot;</span> <span class="o">+</span> <span class="n">bv</span> <span class="k">for</span> <span class="n">bv</span> <span class="ow">in</span> <span class="n">binary_values</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span> <span class="o">+</span> <span class="n">bv</span> <span class="k">for</span> <span class="n">bv</span> <span class="ow">in</span> <span class="n">binary_values</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">binary_values</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Penn Faulkner Rainford.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

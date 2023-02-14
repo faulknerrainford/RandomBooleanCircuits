@@ -6,22 +6,34 @@ class Circuit:
     In Proceedings of the Genetic and Evolutionary Computation Conference, 2:1135–42. researchgate.net.
 
     In this version we list gates with the following properties:
-    0   -   Buffer input 1
-    1   -   AND gate
-    2   -   NAND gate
-    3   -   OR gate
-    4   -   NOR gate
-    5   -   XOR gate
-    6   -   NXOR gate
+
+    0
+        Buffer input 1
+    1
+        AND gate
+    2
+        NAND gate
+    3
+        OR gate
+    4
+        NOR gate
+    5
+        XOR gate
+    6
+        NXOR gate
 
     So a circuit_description is listed as <Inputs> <Gates> <Outputs>
-    <Inputs>    -   Incremental integer labeling of original inputs.
-    <Gates>     -   Each gate is a list <Input 1, Input 2, Gate Type, Output> where output is the next incremental
-                    integer and the gate type is taken from the above list.
-    <Outputs>   -   Integer list of the values to be read out of the circuit_description.
 
-    Example for a single AND gate circuit_description: [(0, 1) (0, 1, 1, 2) (2)] where 0 and 1 are the circuit_description and gate inputs, the
-    gate type is AND=1, and the gate and circuit_description output is 2.
+    <Inputs>
+        Incremental integer labeling of original inputs.
+    <Gates>
+        Each gate is a list <Input 1, Input 2, Gate Type, Output> where output is the next incremental
+        integer and the gate type is taken from the above list.
+    <Outputs>
+        Integer list of the values to be read out of the circuit_description.
+
+    Example for a single AND gate circuit_description: [(0, 1) (0, 1, 1, 2) (2)] where 0 and 1 are the
+    circuit_description and gate inputs, the gate type is AND=1, and the gate and circuit_description output is 2.
 
     Parameters
     ----------
@@ -38,7 +50,7 @@ class Circuit:
         self.gate_set = self.circuitString.split(", ")[1:-1]
         pass
 
-    def run(self, parameters=[]):
+    def run(self, parameters=None):
         """
         Operates the circuit_description on a given set of inputs and returns a list of values from the listed outputs.
 
@@ -53,7 +65,7 @@ class Circuit:
         List<Integer>
             List of 0 or 1 values read from the given list of outputs.
         """
-        if not len(parameters):
+        if not parameters:
             parameters = [1 for x in range(len(self.inputs))]
         input_dict = {}
         for i in range(len(self.inputs)):

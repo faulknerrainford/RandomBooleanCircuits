@@ -37,8 +37,6 @@ RBCParamSpec: Dict[str, GAParameterSpec] = {
     'gate_1': IntGAParameterSpec(0, 1),
     'gate_2': IntGAParameterSpec(0, 1),
     'gate_3': IntGAParameterSpec(0, 1),
-    # 'gate_4': IntGAParameterSpec(0, 1),
-    # 'gate_5': IntGAParameterSpec(0, 1),
 }
 
 GATES = 12
@@ -113,6 +111,9 @@ class RBCSystem(System):
         self.circuit = CircuitExplorer(self.circuitSettings[0], self.circuitSettings[1], self.circuitSettings[2])
 
     def train(self, train_input: npt.NDArray[np.floating], train_output: npt.NDArray[np.floating]) -> None:
+        """
+        Unused in this instance.
+        """
         pass
 
     def run_one(self, input_vals: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:

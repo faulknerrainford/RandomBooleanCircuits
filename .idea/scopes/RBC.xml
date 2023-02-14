@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="RBC" pattern="file[RandomBooleanCircuits]:*||file[RandomBooleanCircuits]:*/*/*.py" />
+</component>
