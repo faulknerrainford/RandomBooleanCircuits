@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RandomBooleanCircuits.source.boolean_circuits &mdash; RandomBooleanCircuits 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RandomBooleanCircuits
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Setup.html">Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Replication.html">Replication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Circuits.html">Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../NoveltySearch.html">Novelty Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Analysis.html">Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RandomBooleanCircuits</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">RandomBooleanCircuits.source.boolean_circuits</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for RandomBooleanCircuits.source.boolean_circuits</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">RandomBooleanCircuits</span> <span class="kn">import</span> <span class="n">CircuitExplorer</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="kn">from</span> <span class="nn">pycharc.search.base_ga</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GAIndividual</span><span class="p">,</span> <span class="n">IntGAParameterSpec</span><span class="p">,</span>
+    <span class="n">GAParameterSpec</span><span class="p">,</span> <span class="n">piecewise_individual</span><span class="p">,</span> <span class="n">mutate_piecewise</span><span class="p">,</span> <span class="n">combine_piecewise</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pycharc.search.microbial_ga</span> <span class="kn">import</span> <span class="n">MicrobialGA</span><span class="p">,</span> <span class="n">KNNFitness</span>
+<span class="kn">from</span> <span class="nn">pycharc.system</span> <span class="kn">import</span> <span class="n">System</span>
+<span class="kn">from</span> <span class="nn">RandomBooleanCircuits</span> <span class="kn">import</span> <span class="n">fixed_input</span> <span class="k">as</span> <span class="n">fin</span>
+
+<span class="c1"># reservoirpy.utils.VERBOSITY = 0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">RBCParamSpec</span>
+<span class="sd">------------</span>
+<span class="sd">Describes the mutable parameters of the system being searched.</span>
+
+<span class="sd">Parameters</span>
+<span class="sd">----------</span>
+<span class="sd">gate_0  :  IntGAParameterSpec(0,1)</span>
+<span class="sd">    The gate is active (1) or inactive (0)</span>
+<span class="sd">gate_1  :  IntGAParameterSpec(0,1)</span>
+<span class="sd">    The gate is active (1) or inactive (0)</span>
+<span class="sd">gate_2  :  IntGAParameterSpec(0,1)</span>
+<span class="sd">    The gate is active (1) or inactive (0)</span>
+<span class="sd">gate_3  :  IntGAParameterSpec(0,1)</span>
+<span class="sd">    The gate is active (1) or inactive (0)</span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">RBCParamSpec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GAParameterSpec</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;gate_0&#39;</span><span class="p">:</span> <span class="n">IntGAParameterSpec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;gate_1&#39;</span><span class="p">:</span> <span class="n">IntGAParameterSpec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;gate_2&#39;</span><span class="p">:</span> <span class="n">IntGAParameterSpec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;gate_3&#39;</span><span class="p">:</span> <span class="n">IntGAParameterSpec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">GATES</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">WIRING</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">19</span><span class="p">],</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">23</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="RBCSystem"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.RBCSystem">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">RBCSystem</span><span class="p">(</span><span class="n">System</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    System for running random boolean circuits. Circuit Settings are written as follows:</span>
+
+<span class="sd">    Input count: int</span>
+<span class="sd">        The number of input values being used, these will be labeled indexing from 0 automatically.</span>
+<span class="sd">    Gate descriptors: list&lt;list&lt;int, int, int, int&gt;&gt;</span>
+<span class="sd">        The int name of the two inputs followed by the gate type and the label for the gate output.</span>
+<span class="sd">    Output values: list&lt;ints&gt;</span>
+<span class="sd">        The list of int names of values to be output.</span>
+
+<span class="sd">    In this version we list gate types as follows:</span>
+
+<span class="sd">    0</span>
+<span class="sd">        Buffer input 1</span>
+<span class="sd">    1</span>
+<span class="sd">        AND gate</span>
+<span class="sd">    2</span>
+<span class="sd">        NAND gate</span>
+<span class="sd">    3</span>
+<span class="sd">        OR gate</span>
+<span class="sd">    4</span>
+<span class="sd">        NOR gate</span>
+<span class="sd">    5</span>
+<span class="sd">        XOR gate</span>
+<span class="sd">    6</span>
+<span class="sd">        NXOR gate</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gate_0  :   int</span>
+<span class="sd">        indicates if gate 0 is active or a buffer for its first input_vals</span>
+<span class="sd">    gate_1  :   int</span>
+<span class="sd">        indicates if gate 1 is active or a buffer for its first input_vals</span>
+<span class="sd">    gate_2  :   int</span>
+<span class="sd">        indicates if gate 2 is active or a buffer for its first input_vals</span>
+<span class="sd">    gate_3  :   int</span>
+<span class="sd">        indicates if gate 3 is active or a buffer for its first input_vals</span>
+<span class="sd">    circuitSettings : list&lt;int, list&lt;list&lt;int&gt;&gt;, list&lt;int&gt;&gt;</span>
+<span class="sd">        The settings for the circuit_description, [Input count, Gate descriptions, Output values]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_0</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_3</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_4</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_5</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_6</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_7</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_8</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_9</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_10</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_11</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_12</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_13</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_14</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_15</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_16</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_17</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_18</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_19</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gate_20</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">circuitSettings</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialises the CircuitExplorer</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RBCSystem</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">circuit</span> <span class="o">=</span> <span class="n">CircuitExplorer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circuitSettings</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuitSettings</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuitSettings</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<div class="viewcode-block" id="RBCSystem.train"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train_input</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span> <span class="n">train_output</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unused in this instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="RBCSystem.run_one"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run_one">[docs]</a>    <span class="k">def</span> <span class="nf">run_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_vals</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a single run of the system on a single set of input values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_vals  :   numpy.NDArray</span>
+<span class="sd">            array of input values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Output of circuit_description.run_single.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">run_single</span><span class="p">(</span><span class="n">input_vals</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">gate_0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_2</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_4</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_5</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_6</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_7</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_8</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_9</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_11</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_12</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_13</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_14</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_15</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_16</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_17</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_18</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_19</span><span class="p">,</span>
+                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">gate_20</span><span class="p">]]))</span></div>
+
+<div class="viewcode-block" id="RBCSystem.run"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Currently the same as run_one.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs  :   numpy.NDArray</span>
+<span class="sd">            array of input values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Output of circuit_description.run_single.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">run_single</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">gate_0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_2</span><span class="p">,</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">gate_3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_4</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_5</span><span class="p">,</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">gate_6</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_7</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_8</span><span class="p">,</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">gate_9</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_11</span><span class="p">,</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">gate_12</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_13</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_14</span><span class="p">,</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">gate_15</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_16</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_17</span><span class="p">,</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">gate_18</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_19</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_20</span><span class="p">]]))</span></div>
+
+<div class="viewcode-block" id="RBCSystem.preprocess"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.preprocess">[docs]</a>    <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_vals</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        No preprocessing, returns input values without modification</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_vals  : numpy.NDArray</span>
+<span class="sd">            The input values which might normally be processed</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.NDArray</span>
+<span class="sd">            The input values without modification</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">input_vals</span></div></div>
+
+
+<span class="c1"># RBCIndividual(piecewise_params(RBCParamSpec), RBCParamSpec)</span>
+<div class="viewcode-block" id="make_subclass"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.make_subclass">[docs]</a><span class="k">def</span> <span class="nf">make_subclass</span><span class="p">(</span><span class="n">circuit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dynamic subclassing to define different circuits for multiple runs in the same script.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    circuit :   list&lt;int, list&lt;list&lt;int&gt;&gt;, list&lt;int&gt;&gt;</span>
+<span class="sd">        The circuitSetting for the circuit_description: [input_count, gate_descriptors, output_values]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    RBCIndividual</span>
+<span class="sd">        The new subclass of GAIndividual with the correct circuit_description settings and system function call.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">RBCIndividual</span><span class="p">(</span><span class="n">GAIndividual</span><span class="p">):</span>
+        <span class="n">cls_circuit</span> <span class="o">=</span> <span class="n">circuit</span>
+
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">RBCSystem</span><span class="p">(</span><span class="n">circuitSettings</span><span class="o">=</span><span class="n">circuit</span><span class="p">,</span>
+                             <span class="n">input_units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">output_units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">hidden_units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">wash_out</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">gate_0</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_0&#39;</span><span class="p">],</span>
+                             <span class="n">gate_1</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_1&#39;</span><span class="p">],</span>
+                             <span class="n">gate_2</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_2&#39;</span><span class="p">],</span>
+                             <span class="n">gate_3</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_3&#39;</span><span class="p">],</span>
+                             <span class="n">gate_4</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_4&#39;</span><span class="p">],</span>
+                             <span class="n">gate_5</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_5&#39;</span><span class="p">],</span>
+                             <span class="n">gate_6</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_6&#39;</span><span class="p">],</span>
+                             <span class="n">gate_7</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_7&#39;</span><span class="p">],</span>
+                             <span class="n">gate_8</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_8&#39;</span><span class="p">],</span>
+                             <span class="n">gate_9</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_9&#39;</span><span class="p">],</span>
+                             <span class="n">gate_10</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_10&#39;</span><span class="p">],</span>
+                             <span class="n">gate_11</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_11&#39;</span><span class="p">],</span>
+                             <span class="n">gate_12</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_12&#39;</span><span class="p">],</span>
+                             <span class="n">gate_13</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_13&#39;</span><span class="p">],</span>
+                             <span class="n">gate_14</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_14&#39;</span><span class="p">],</span>
+                             <span class="n">gate_15</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_15&#39;</span><span class="p">],</span>
+                             <span class="n">gate_16</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_16&#39;</span><span class="p">],</span>
+                             <span class="n">gate_17</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_17&#39;</span><span class="p">],</span>
+                             <span class="n">gate_18</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_18&#39;</span><span class="p">],</span>
+                             <span class="n">gate_19</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_19&#39;</span><span class="p">],</span>
+                             <span class="n">gate_20</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;gate_20&#39;</span><span class="p">]</span>
+                             <span class="p">)</span>  <span class="c1"># Or whatever instantiation your system needs</span>
+
+    <span class="k">return</span> <span class="n">RBCIndividual</span></div>
+
+
+<div class="viewcode-block" id="circuit_search"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.circuit_search">[docs]</a><span class="k">def</span> <span class="nf">circuit_search</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a text based description of the gates in the circuit_description and sets up the circuit_description settings</span>
+<span class="sd">    before generating a search object for it using MicrobialGA.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    settings    :   list&lt;Strings&gt;</span>
+<span class="sd">        The list of &quot;AND&quot; and &quot;OR&quot; gates to be implemented in the existing wiring.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    MicrobialGA</span>
+<span class="sd">        A search object with correct circuit_description and system call.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_values</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">output_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">gate_set</span> <span class="o">=</span> <span class="n">WIRING</span><span class="p">[:</span><span class="n">GATES</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;AND&quot;</span><span class="p">:</span>
+            <span class="n">gate_set</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">settings</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;OR&quot;</span><span class="p">:</span>
+            <span class="n">gate_set</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gate_set</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">CircuitIndividual</span> <span class="o">=</span> <span class="n">make_subclass</span><span class="p">([</span><span class="n">input_values</span><span class="p">,</span> <span class="n">gate_set</span><span class="p">,</span> <span class="n">output_values</span><span class="p">])</span>
+    <span class="n">searcher</span> <span class="o">=</span> <span class="n">MicrobialGA</span><span class="p">(</span>
+        <span class="n">metric_spec</span><span class="o">=</span><span class="p">[</span><span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_0</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_1</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_2</span><span class="p">,</span>
+                     <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_3</span><span class="p">,</span>
+                     <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_4</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_5</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_6</span><span class="p">,</span>
+                     <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_7</span><span class="p">,</span>
+                     <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_8</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_9</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_10</span><span class="p">,</span>
+                     <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_11</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_12</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_13</span><span class="p">,</span>
+                     <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_14</span><span class="p">,</span> <span class="n">fin</span><span class="o">.</span><span class="n">fixed_input_binary_15</span><span class="p">],</span>
+        <span class="n">generator</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">piecewise_individual</span><span class="p">(</span><span class="n">RBCParamSpec</span><span class="p">,</span> <span class="n">CircuitIndividual</span><span class="p">),</span>
+        <span class="n">number_of_tests</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">population_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">generations</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">mutation_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">recombination_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">deme_rate</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">combine_func</span><span class="o">=</span><span class="n">combine_piecewise</span><span class="p">,</span>
+        <span class="n">mutate_func</span><span class="o">=</span><span class="n">mutate_piecewise</span><span class="p">,</span>
+        <span class="n">fitness_function</span><span class="o">=</span><span class="n">KNNFitness</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">searcher</span></div>
+
+
+<div class="viewcode-block" id="add_search_results"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.add_search_results">[docs]</a><span class="k">def</span> <span class="nf">add_search_results</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert search population metrics and final population values to dataframe rows with circuit_description description</span>
+<span class="sd">    and parameter settings as well as the truth table output and whether a circuit_description is in the final</span>
+<span class="sd">    population.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    settings    :   list&lt;Strings&gt;</span>
+<span class="sd">        The text based list of &quot;AND&quot; and &quot;OR&quot; values to describe the different gates in the circuit_description.</span>
+<span class="sd">    results     :   MicrobialGA</span>
+<span class="sd">        The run MicrobialGA with its final population and general population metrics.</span>
+<span class="sd">    dataframe   :   pandas.DataFrame</span>
+<span class="sd">        The dataframe to add the set of results to. Must already be established with correct columns - [&quot;Input_Count&quot;,</span>
+<span class="sd">        &quot;Outputs&quot;, &quot;Wiring&quot;, &quot;Gates&quot;, &quot;Gate_Activations&quot;, &quot;Truth_Table&quot;, &quot;Final_Population&quot;]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        The dataframe with the new data added.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_values</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">output_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">GATES</span><span class="p">,</span> <span class="n">GATES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">GATES</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">GATES</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">wiring</span> <span class="o">=</span> <span class="n">WIRING</span><span class="p">[:</span><span class="n">GATES</span><span class="p">]</span>
+    <span class="n">final_pop</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">params</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">population</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">population_metrics</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">gate_activity</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">population_metrics</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">final_pop</span><span class="p">:</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">:</span> <span class="n">input_values</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">:</span> <span class="n">output_values</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">:</span> <span class="n">wiring</span><span class="p">,</span>
+                   <span class="s2">&quot;Gates&quot;</span><span class="p">:</span> <span class="n">settings</span><span class="p">,</span> <span class="s2">&quot;Gate_Activations&quot;</span><span class="p">:</span> <span class="n">gate_activity</span><span class="p">,</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">:</span> <span class="n">truth_table</span><span class="p">,</span>
+                   <span class="s2">&quot;Final_Population&quot;</span><span class="p">:</span> <span class="n">fp</span><span class="p">}</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">new_row</span><span class="p">])],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataframe</span></div>
+
+
+<div class="viewcode-block" id="save_results"><a class="viewcode-back" href="../../../NoveltySearch.html#RandomBooleanCircuits.source.boolean_circuits.save_results">[docs]</a><span class="k">def</span> <span class="nf">save_results</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the dataframe of results to a csv file with the given name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dataframe   :   pandas.DataFrame</span>
+<span class="sd">        The dataframe of results.</span>
+<span class="sd">    filename    :   String</span>
+<span class="sd">        The filename and path to be used to save the file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dataframe</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Gate_Activations&quot;</span><span class="p">,</span>
+                                                    <span class="s2">&quot;Truth_Table&quot;</span><span class="p">,</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">])</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># set up a loop with modified individual class for each run to loop over all possible circuit_description</span>
+<span class="c1">#  designs and add results to dataframe after each.</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Main functionality running all possible 4 gates with the given wiring using only &quot;AND&quot; and &quot;OR&quot; gates.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">circuit_settings</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">GATES</span><span class="p">):</span>
+        <span class="n">circuit_description</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">GATES</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">))</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+                <span class="n">circuit_description</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;OR&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">circuit_description</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;AND&quot;</span><span class="p">)</span>
+        <span class="n">circuit_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit_description</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Gate_Activations&quot;</span><span class="p">,</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;Final_Population&quot;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">circuit_settings</span><span class="p">:</span>
+        <span class="n">search</span> <span class="o">=</span> <span class="n">circuit_search</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">add_search_results</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+    <span class="n">save_results</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">GATES</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_gate_test_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Penn Faulkner Rainford.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

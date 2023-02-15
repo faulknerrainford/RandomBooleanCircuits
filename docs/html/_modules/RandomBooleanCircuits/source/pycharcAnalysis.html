@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RandomBooleanCircuits.source.pycharcAnalysis &mdash; RandomBooleanCircuits 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RandomBooleanCircuits
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Setup.html">Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Replication.html">Replication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Circuits.html">Circuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../NoveltySearch.html">Novelty Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Analysis.html">Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RandomBooleanCircuits</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">RandomBooleanCircuits.source.pycharcAnalysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for RandomBooleanCircuits.source.pycharcAnalysis</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">statistics</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">from</span> <span class="nn">RandomBooleanCircuits</span> <span class="kn">import</span> <span class="n">CircuitExplorer</span>
+
+
+<div class="viewcode-block" id="TruthTableAnalyser"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser">[docs]</a><span class="k">class</span> <span class="nc">TruthTableAnalyser</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads in the data from csv file and provides functions for analysis</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename    :   String</span>
+<span class="sd">        full file path to the data csv from the boolean circuit scripts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truth_to_list</span><span class="p">()</span>
+        <span class="c1"># self.missing_fc_add()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gates_to_label</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TruthTableAnalyser.fc_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">fc_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds if the full circuit for each gate set is in the final population.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        inputs  :   List&lt;Int&gt;</span>
+<span class="sd">            The set of inputs to the circuit, used to identify correct circuit</span>
+<span class="sd">        outputs :   List&lt;Int&gt;</span>
+<span class="sd">            The set of outputs from the circuit, used to identify correct circuit</span>
+<span class="sd">        gates   :   List&lt;String&gt;</span>
+<span class="sd">            The set of gate in the circuits, used to identify correct circuit</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            Group by with the truth value for if the data for each circuit contains the full circuit</span>
+<span class="sd">            in the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;Comp_Count&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">inputs</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">if</span> <span class="n">outputs</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Outputs&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">outputs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">gates</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gates</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_fc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.find_fc"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_fc</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns truth value for if the full circuit is in the final population.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            dataframe of the circuit to check for full circuit.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Boolean</span>
+<span class="sd">            true if circuit with full component count in the final population, false otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">GATES</span><span class="p">),</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.find_fc_tt"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_fc_tt</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the truth table for the full circuit is in the final population.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            Dataframe to search for the full circuit.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Boolean</span>
+<span class="sd">            The truth value for if the truth table of the full circuit is in the final population.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">GATES</span><span class="p">),</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">tt</span> <span class="o">==</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]),</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.fc_tt_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_tt_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">fc_tt_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks for the full circuit truth table in the final population</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs  :   List&lt;Int&gt;</span>
+<span class="sd">            The set of inputs to the circuit, used to identify correct circuit</span>
+<span class="sd">        outputs :   List&lt;Int&gt;</span>
+<span class="sd">            The set of outputs from the circuit, used to identify correct circuit</span>
+<span class="sd">        gates   :   List&lt;String&gt;</span>
+<span class="sd">            The set of gate in the circuits, used to identify correct circuit]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of truth values for if the full circuits truth table is in the final population.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;Comp_Count&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">inputs</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">if</span> <span class="n">outputs</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Outputs&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">outputs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">gates</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gates</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_fc_tt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.av_dist_fc_to_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_fc_to_fp">[docs]</a>    <span class="k">def</span> <span class="nf">av_dist_fc_to_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets average hamming distance of final population parameters to full circuit.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby with average hamming distance for each final population.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;FC_Dist&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_dist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;FC_Dist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.av_tt_dist_fc_to_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_fc_to_fp">[docs]</a>    <span class="k">def</span> <span class="nf">av_tt_dist_fc_to_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets average hamming distance of truth tables of the final population to the full circuit.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby with mean hamming distance for each final population.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;FC_TT_Dist&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_tt_dist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;FC_TT_Dist&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.av_dist_btw_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_btw_fp">[docs]</a>    <span class="k">def</span> <span class="nf">av_dist_btw_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average hamming distance between the parameters of the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of mean hamming distances between the parameters of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_dist_circuit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.av_tt_dist_btw_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_btw_fp">[docs]</a>    <span class="k">def</span> <span class="nf">av_tt_dist_btw_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average hamming distance between the truth tables of the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of mean hamming distances between the truth tables of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_tt_dist_circuit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.max_dist_btw_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_dist_btw_fp">[docs]</a>    <span class="k">def</span> <span class="nf">max_dist_btw_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Max hamming distance between the parameters of the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of max hamming distances between the parameters of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_max_dist_circuit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.max_tt_dist_btw_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_tt_dist_btw_fp">[docs]</a>    <span class="k">def</span> <span class="nf">max_tt_dist_btw_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Max hamming distance between the truth tables of the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of max hamming distances between the truth tables of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_max_tt_dist_circuit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.max_comp_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_comp_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">max_comp_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Max components in the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of max parameters of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.min_comp_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.min_comp_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">min_comp_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Min components in the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of min parameters of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.mode_comp_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.mode_comp_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">mode_comp_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mode components in the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of mode parameters of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.median_comp_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.median_comp_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">median_comp_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Median components in the final population</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            groupby of median parameters of the final population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">median</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.add_comp_count"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_count">[docs]</a>    <span class="k">def</span> <span class="nf">add_comp_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds &quot;Comp_Count&quot; column to dataframe containing the count of the number of active gates in the circuit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gate_Activations&quot;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.add_comp_fraction"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_fraction">[docs]</a>    <span class="k">def</span> <span class="nf">add_comp_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds &quot;Comp_Frac&quot; column to dataframe containing the proportion of AND gates in the gate set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Frac&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;AND&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;OR&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;AND&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.add_fc_dist"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_dist">[docs]</a>    <span class="k">def</span> <span class="nf">add_fc_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds &quot;FC_Dist&quot; column to dataframe containing the number of inactive gates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;FC_Dist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gate_Activations&quot;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.add_fc_tt_dist"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_tt_dist">[docs]</a>    <span class="k">def</span> <span class="nf">add_fc_tt_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds &quot;FC_TT_Dist&quot; column to dataframe containing the hamming distance between the truth table and</span>
+<span class="sd">        the full circuits truth table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get set of circuits in frame</span>
+        <span class="n">tt_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Outputs&quot;</span><span class="p">],</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Wiring&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Gates&quot;</span><span class="p">]])</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tt_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">tt_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># get id for each frame</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tt_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">index_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outputs&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span>
+                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Wiring&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">&amp;</span>
+                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gate_Activations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">tt_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">index_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;FC_TT_Dist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_tt_dist_2</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">tt_dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">],</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="s2">&quot;Outputs&quot;</span><span class="p">],</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="s2">&quot;Wiring&quot;</span><span class="p">],</span>
+                                                                         <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="s2">&quot;Gates&quot;</span><span class="p">]])])</span>
+                                 <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.missing_fc_add"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.missing_fc_add">[docs]</a>    <span class="k">def</span> <span class="nf">missing_fc_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds the full circuit with truth table to the dataframe if not already present.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tt_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Outputs&quot;</span><span class="p">],</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Wiring&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Gates&quot;</span><span class="p">]])</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tt_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">tt_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tt_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">index_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outputs&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span>
+                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Wiring&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">&amp;</span>
+                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gate_Activations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">index_fc</span><span class="p">:</span>
+                <span class="n">tt_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_fc_tt_index</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">k</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.get_fc_tt_index"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_fc_tt_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_fc_tt_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_count</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">wiring</span><span class="p">,</span> <span class="n">gates</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For a given circuit add full circuit to the dataframe and gets the index.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_count :   Int</span>
+<span class="sd">            Number of inputs into the circuit, used for circuit identification.</span>
+<span class="sd">        outputs     :   List&lt;Int&gt;</span>
+<span class="sd">            List of outputs from the circuit, used for circuit identification.</span>
+<span class="sd">        wiring      :   List&lt;List&lt;Int, Int&gt;&gt;</span>
+<span class="sd">            List of gate input lists, used for circuit identification.</span>
+<span class="sd">        gates       :   List&lt;String&gt;</span>
+<span class="sd">            List of gates in circuits, used for circuit identification.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Int</span>
+<span class="sd">            Index of full circuit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># generate circuit_description</span>
+        <span class="n">gate_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">output_label</span> <span class="o">=</span> <span class="n">input_count</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="n">gates</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;][&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+        <span class="n">wiring</span> <span class="o">=</span> <span class="n">wiring</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;][&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;], [&#39;</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;][&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+        <span class="n">wiring</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">])]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">wiring</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">gate</span><span class="p">,</span> <span class="n">wires</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gates</span><span class="p">,</span> <span class="n">wiring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">gate</span> <span class="o">==</span> <span class="s2">&quot;&#39;AND&#39;&quot;</span><span class="p">:</span>
+                <span class="n">wires</span> <span class="o">=</span> <span class="n">wires</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">gate</span> <span class="o">==</span> <span class="s2">&quot;&#39;OR&#39;&quot;</span><span class="p">:</span>
+                <span class="n">wires</span> <span class="o">=</span> <span class="n">wires</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wires</span> <span class="o">=</span> <span class="n">wires</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">wires</span> <span class="o">=</span> <span class="n">wires</span> <span class="o">+</span> <span class="p">[</span><span class="n">output_label</span><span class="p">]</span>
+            <span class="n">gate_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wires</span><span class="p">)</span>
+            <span class="n">output_label</span> <span class="o">=</span> <span class="n">output_label</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">CircuitExplorer</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">input_count</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="n">gate_list</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+        <span class="c1"># get circuit_description tt</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">parameters_string</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">gate_list</span><span class="p">:</span>
+            <span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span> <span class="o">+</span> <span class="s1">&#39;1&#39;</span>
+            <span class="n">parameters_string</span> <span class="o">=</span> <span class="n">parameters_string</span> <span class="o">+</span> <span class="s1">&#39;1, &#39;</span>
+        <span class="n">parameters_string</span> <span class="o">=</span> <span class="n">parameters_string</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="n">tt</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="n">tt</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tt</span><span class="p">]</span>
+        <span class="c1"># add results to dataframe</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">:</span> <span class="n">input_count</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]),</span>
+                   <span class="s2">&quot;Wiring&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">wiring</span><span class="p">),</span> <span class="s2">&quot;Gates&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">([</span><span class="n">gate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">gates</span><span class="p">]),</span>
+                   <span class="s2">&quot;Gate_Activations&quot;</span><span class="p">:</span> <span class="n">parameters_string</span><span class="p">,</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">:</span> <span class="n">tt</span><span class="p">,</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">new_row</span><span class="p">])],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># get index of new row</span>
+        <span class="n">index_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">index_fc</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_dist_2"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_2">[docs]</a>    <span class="k">def</span> <span class="nf">calc_dist_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_a</span><span class="p">,</span> <span class="n">index_b</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the hamming distance between the parameters of two circuits given by the indexes in the dataframe.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index_a :   Int</span>
+<span class="sd">            Index of the first circuit</span>
+<span class="sd">        index_b :   Int</span>
+<span class="sd">            Index of the second circuit</span>
+<span class="sd">        df      :   DataFrame</span>
+<span class="sd">            dataframe for selecting circuits from subset.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Int</span>
+<span class="sd">            The hamming distance between the parameters of the two circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index_a</span><span class="p">,</span> <span class="s2">&quot;Gate_Activations&quot;</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index_b</span><span class="p">,</span> <span class="s2">&quot;Gate_Activations&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span><span class="p">:</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">dist</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_dist_group"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_group">[docs]</a>    <span class="k">def</span> <span class="nf">calc_dist_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">final</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the mean hamming distance between parameters for a group of circuits.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs  :   Int</span>
+<span class="sd">            Number of inputs into the circuit, used for group identification</span>
+<span class="sd">        outputs :   List&lt;Int&gt;</span>
+<span class="sd">            List of outputs from the circuit, used for group identification</span>
+<span class="sd">        gates   :   List&lt;String&gt;</span>
+<span class="sd">            List of gates in the circuit, used for group identification</span>
+<span class="sd">        final   :   Boolean</span>
+<span class="sd">            Select only the final population (true) or full archive (false)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The mean hamming distance between the parameters of circuits in the group.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">inputs</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">if</span> <span class="n">outputs</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Outputs&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">outputs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">gates</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gates</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">final</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ind_a</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ind_b</span> <span class="ow">in</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">ind_a</span><span class="p">]:</span>
+                <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_dist_2</span><span class="p">(</span><span class="n">ind_a</span><span class="p">,</span> <span class="n">ind_b</span><span class="p">,</span> <span class="n">group</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_dist_circuit"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">calc_dist_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For a dataframe get the mean hamming distance between parameters in all circuits.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            set of circuits to find average distance between.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            mean hamming distance between parameters of circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ind_a</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ind_b</span> <span class="ow">in</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">ind_a</span><span class="p">]:</span>
+                <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_dist_2</span><span class="p">(</span><span class="n">ind_a</span><span class="p">,</span> <span class="n">ind_b</span><span class="p">,</span> <span class="n">df</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_max_dist_circuit"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_dist_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">calc_max_dist_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For a dataframe get the max hamming distance between parameters in all circuits.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            set of circuits to find max distance between.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            max hamming distance between parameters of circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ind_a</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ind_b</span> <span class="ow">in</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">ind_a</span><span class="p">]:</span>
+                <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_dist_2</span><span class="p">(</span><span class="n">ind_a</span><span class="p">,</span> <span class="n">ind_b</span><span class="p">,</span> <span class="n">df</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_tt_dist_2"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_2">[docs]</a>    <span class="k">def</span> <span class="nf">calc_tt_dist_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_a</span><span class="p">,</span> <span class="n">index_b</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the hamming distance between the truth tables of two circuits given by the indexes in the dataframe.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index_a :   Int</span>
+<span class="sd">            Index of the first circuit</span>
+<span class="sd">        index_b :   Int</span>
+<span class="sd">            Index of the second circuit</span>
+<span class="sd">        df      :   DataFrame</span>
+<span class="sd">            dataframe for selecting circuits from subset.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Int</span>
+<span class="sd">            The hamming distance between the truth tables of the two circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index_a</span><span class="p">,</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index_b</span><span class="p">,</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span><span class="p">:</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">dist</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_tt_dist_circuit"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">calc_tt_dist_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For a dataframe get the mean hamming distance between truth tables in all circuits.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            set of circuits to find average distance between.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            mean hamming distance between the truth tables of circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ind_a</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ind_b</span> <span class="ow">in</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">ind_a</span><span class="p">]:</span>
+                <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_tt_dist_2</span><span class="p">(</span><span class="n">ind_a</span><span class="p">,</span> <span class="n">ind_b</span><span class="p">,</span> <span class="n">df</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.calc_max_tt_dist_circuit"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_tt_dist_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">calc_max_tt_dist_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For a dataframe get the max hamming distance between truth tables in all circuits.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            set of circuits to find max distance between.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            max hamming distance between the truth tables of circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ind_a</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ind_b</span> <span class="ow">in</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">ind_a</span><span class="p">]:</span>
+                <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_tt_dist_2</span><span class="p">(</span><span class="n">ind_a</span><span class="p">,</span> <span class="n">ind_b</span><span class="p">,</span> <span class="n">df</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.truth_to_list"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_to_list">[docs]</a>    <span class="k">def</span> <span class="nf">truth_to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts the string based truth tables to lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;. &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.gates_to_label"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.gates_to_label">[docs]</a>    <span class="k">def</span> <span class="nf">gates_to_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts the gate set to a base 10 label and adds new column of them, &quot;Labels&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">gates</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">gate_list</span> <span class="o">=</span> <span class="n">gates</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;][&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">gate_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">gate</span> <span class="o">==</span> <span class="s2">&quot;&#39;AND&#39;&quot;</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">label</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">label</span> <span class="o">+</span> <span class="s1">&#39;1&#39;</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.tt_distance_graph"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_distance_graph">[docs]</a>    <span class="k">def</span> <span class="nf">tt_distance_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a boxplot of the component counts against the distance of circuits to the full circuit truth tables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn box plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_tt_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_fraction</span><span class="p">()</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Comp_Frac&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FC_TT_Dist&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FC_TT_Dist&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.comp_distance_graph"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_distance_graph">[docs]</a>    <span class="k">def</span> <span class="nf">comp_distance_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a boxplot of the component counts against the distance of circuits to the full circuit parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn box plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_tt_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_fraction</span><span class="p">()</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Comp_Frac&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FC_Dist&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;FC_Dist&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.circuit_graph_tt_line"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_line">[docs]</a>    <span class="k">def</span> <span class="nf">circuit_graph_tt_line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a line plot of circuit labels against the average truth tables distances between the full population.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn line plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_tt_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_fraction</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_group_labels</span><span class="p">(),</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">av_tt_dist_btw_fp</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.circuit_graph_tt_max_line"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_max_line">[docs]</a>    <span class="k">def</span> <span class="nf">circuit_graph_tt_max_line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a line plot of circuit labels against the max truth tables distances between the full population.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn line plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_tt_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_fc_dist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_fraction</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_group_labels</span><span class="p">(),</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_tt_dist_btw_fp</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.get_group_labels"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_group_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_group_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assigns and returns a list of circuit labels for all final population members.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Series</span>
+<span class="sd">            List of labels for circuits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Final_Population&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])[</span><span class="s2">&quot;Labels&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.comp_size_by_tt"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_size_by_tt">[docs]</a>    <span class="k">def</span> <span class="nf">comp_size_by_tt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a violin plot of truth table labels against the component counts.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn violin plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># sort tt labels and return comp size box plot (bar style for compression)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="n">fcs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+        <span class="n">tts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tts_labels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">tt_label</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fcs</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tts</span><span class="p">:</span>
+                <span class="n">tts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">tts_labels</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">tt_label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tt_label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tts_labels</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tt_label</span>
+        <span class="c1"># get only truth tables with multiple instances</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Truth_Label&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.variants_by_fc"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.variants_by_fc">[docs]</a>    <span class="k">def</span> <span class="nf">variants_by_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns truth tables violin plots for each full circuit_description truth table showing the component counts.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ax</span>
+<span class="sd">            Matplotlib Axes with violin plot of the component count of versions of each circuit&#39;s truth table found in</span>
+<span class="sd">            the full set of runs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get list of unique fc tts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="n">fcs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Gate_Activations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+        <span class="n">tts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tts_labels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fcs</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">fcs</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tts</span><span class="p">:</span>
+                <span class="n">tts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">tts_labels</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="c1"># reduce df to rows with those tts</span>
+        <span class="n">tt_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">tts</span><span class="p">))]</span>
+        <span class="c1"># then plot violin with tt on x and comp count on y.</span>
+        <span class="n">tt_df</span><span class="p">[</span><span class="s2">&quot;TT_Labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">tts_labels</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tt_df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">tt_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;TT_Labels&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.get_archive_size"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_archive_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_archive_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get histogram of archive sizes for different initial circuits.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn histogram</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df_arch_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df_arch_count</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.truth_cc_boxplot"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_cc_boxplot">[docs]</a>    <span class="k">def</span> <span class="nf">truth_cc_boxplot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plots box plot of the truth labels (unique truth tables) against component counts.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn box plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># See boxplot above.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_comp_count</span><span class="p">()</span>
+        <span class="c1"># group = self.df.loc[(self.df[&quot;Final_Population&quot;])]</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="n">fcs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+        <span class="n">tts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tts_labels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">tt_label</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fcs</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tts</span><span class="p">:</span>
+                <span class="n">tts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">tts_labels</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">tt_label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tt_label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tts_labels</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">fcs</span><span class="p">[</span><span class="n">i</span><span class="p">])])</span>
+        <span class="n">group</span><span class="p">[</span><span class="s2">&quot;Truth_Label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tt_label</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Truth_Label&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.tt_by_circuit"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_by_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">tt_by_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        scatter plot of the number of truth tables found for each circuit.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyplot</span>
+<span class="sd">            seaborn scatter plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># group by circuit_description and assign incremental label and count of unique tts</span>
+        <span class="c1"># group = self.df.loc[(self.df[&quot;Final_Population&quot;])]</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="n">group_tt_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span>
+                                                <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_tt</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">group_tt_count</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">y</span><span class="o">=</span><span class="n">group_tt_count</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.unique_tt"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.unique_tt">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">unique_tt</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Count of unique truth tables in the given dataframe.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            dataframe to be checked for unique truth tables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Int</span>
+<span class="sd">            count of unique truth tables</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tables</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TruthTableAnalyser.get_label"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_label">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the first label value for the given dataframe.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df  :   DataFrame</span>
+<span class="sd">            dataframe to get label value from</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        String</span>
+<span class="sd">            first Label value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">Labels</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="get_behaviour_table"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table">[docs]</a><span class="k">def</span> <span class="nf">get_behaviour_table</span><span class="p">(</span><span class="n">df_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prints a fully formated latex table of truth tables.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df_name :   String</span>
+<span class="sd">        file name for csv to print truth tables from.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">df_name</span><span class="p">)</span>
+    <span class="n">table_string</span> <span class="o">=</span> <span class="s2">&quot;Behaviour Label&quot;</span>
+    <span class="n">input_strings</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;0000&quot;</span><span class="p">,</span> <span class="s2">&quot;0001&quot;</span><span class="p">,</span> <span class="s2">&quot;0010&quot;</span><span class="p">,</span> <span class="s2">&quot;0011&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;0100&quot;</span><span class="p">,</span> <span class="s2">&quot;0101&quot;</span><span class="p">,</span> <span class="s2">&quot;0110&quot;</span><span class="p">,</span> <span class="s2">&quot;0111&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;1000&quot;</span><span class="p">,</span> <span class="s2">&quot;1001&quot;</span><span class="p">,</span> <span class="s2">&quot;1010&quot;</span><span class="p">,</span> <span class="s2">&quot;1011&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;1100&quot;</span><span class="p">,</span> <span class="s2">&quot;1101&quot;</span><span class="p">,</span> <span class="s2">&quot;1110&quot;</span><span class="p">,</span> <span class="s2">&quot;1111&quot;</span><span class="p">]</span>
+    <span class="n">behaviour_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">truth_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Table&quot;</span><span class="p">]]</span>
+    <span class="n">truth_tables</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">truth_tables</span><span class="p">]</span>
+    <span class="n">behaviours</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">truth_tables</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Label&quot;</span><span class="p">][</span><span class="n">x</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">behaviour_labels</span><span class="p">:</span>
+            <span class="n">behaviour_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Truth_Label&quot;</span><span class="p">][</span><span class="n">x</span><span class="p">]))</span>
+            <span class="n">behaviours</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">truth_tables</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">behaviour_labels</span><span class="p">)):</span>
+        <span class="n">table_string</span> <span class="o">=</span> <span class="n">table_string</span> <span class="o">+</span> <span class="s2">&quot; &amp; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">behaviour_labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+        <span class="n">table_string</span> <span class="o">=</span> <span class="n">table_string</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\\\\</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="n">input_strings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">behaviours</span><span class="p">)):</span>
+            <span class="n">table_string</span> <span class="o">=</span> <span class="n">table_string</span> <span class="o">+</span> <span class="s2">&quot; &amp; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">behaviours</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">table_string</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Main behaviour produces archive size histogram, truth table by circuit scatter plot and component count for truth table</span>
+<span class="sd">boxplot for paper data and table of behaviours for repeated truth tables.</span>
+
+<span class="sd">Parameters</span>
+<span class="sd">-----------</span>
+<span class="sd">Gates(Optional) </span>
+<span class="sd">    Gives the size of system to analyse.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">GATES</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">GATES</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">analyser</span> <span class="o">=</span> <span class="n">TruthTableAnalyser</span><span class="p">(</span><span class="s2">&quot;~/PycharmProjects/RandomBooleanCircuits/PyCharc_multirun_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">GATES</span><span class="p">)</span>
+                                  <span class="o">+</span> <span class="s2">&quot;_gate_RBC_results.csv&quot;</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">analyser</span><span class="o">.</span><span class="n">get_archive_size</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Archive Size&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;No. Circuits&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">GATES</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_archive_hist.png&quot;</span><span class="p">)</span>
+    <span class="n">analyser</span><span class="o">.</span><span class="n">tt_by_circuit</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">GATES</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_tt_per_circuits.png&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">analyser</span><span class="o">.</span><span class="n">truth_cc_boxplot</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Behaviour Label&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Component Count&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">GATES</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_variants_per_tt.png&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">get_behaviour_table</span><span class="p">(</span><span class="s2">&quot;~/PycharmProjects/RandomBooleanCircuits/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">GATES</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;_var_group_df.csv&quot;</span><span class="p">)</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Penn Faulkner Rainford.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
