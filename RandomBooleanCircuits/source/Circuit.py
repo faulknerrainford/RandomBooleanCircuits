@@ -50,7 +50,7 @@ class Circuit:
         self.gate_set = self.circuitString.split(", ")[1:-1]
         pass
 
-    def run(self, parameters=None):
+    def run(self, parameters=[]):
         """
         Operates the circuit_description on a given set of inputs and returns a list of values from the listed outputs.
 
@@ -65,7 +65,7 @@ class Circuit:
         List<Integer>
             List of 0 or 1 values read from the given list of outputs.
         """
-        if not parameters:
+        if not len(parameters):
             parameters = [1 for x in range(len(self.inputs))]
         input_dict = {}
         for i in range(len(self.inputs)):

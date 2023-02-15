@@ -48,7 +48,54 @@
 <li class="toctree-l1"><a class="reference internal" href="Replication.html">Replication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Circuits.html">Circuits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NoveltySearch.html">Novelty Search</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_count"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.add_comp_count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_fraction"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.add_comp_fraction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_dist"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.add_fc_dist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_tt_dist"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.add_fc_tt_dist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_btw_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.av_dist_btw_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_fc_to_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.av_dist_fc_to_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_btw_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.av_tt_dist_btw_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_fc_to_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.av_tt_dist_fc_to_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_2"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_dist_2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_circuit"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_dist_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_group"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_dist_group()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_dist_circuit"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_max_dist_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_tt_dist_circuit"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_max_tt_dist_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_2"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_tt_dist_2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_circuit"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.calc_tt_dist_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_line"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.circuit_graph_tt_line()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_max_line"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.circuit_graph_tt_max_line()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_distance_graph"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.comp_distance_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_size_by_tt"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.comp_size_by_tt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_in_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.fc_in_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_tt_in_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.fc_tt_in_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.find_fc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.find_fc_tt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.gates_to_label"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.gates_to_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_archive_size"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.get_archive_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_fc_tt_index"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.get_fc_tt_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_group_labels"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.get_group_labels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_label"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.get_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_comp_in_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.max_comp_in_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_dist_btw_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.max_dist_btw_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_tt_dist_btw_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.max_tt_dist_btw_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.median_comp_in_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.median_comp_in_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.min_comp_in_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.min_comp_in_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.missing_fc_add"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.missing_fc_add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.mode_comp_in_fp"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.mode_comp_in_fp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_cc_boxplot"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.truth_cc_boxplot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_to_list"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.truth_to_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_by_circuit"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.tt_by_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_distance_graph"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.tt_distance_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.unique_tt"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.unique_tt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.variants_by_fc"><code class="docutils literal notranslate"><span class="pre">TruthTableAnalyser.variants_by_fc()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table"><code class="docutils literal notranslate"><span class="pre">get_behaviour_table()</span></code></a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -75,8 +122,621 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="analysis">
-<h1>Analysis<a class="headerlink" href="#analysis" title="Permalink to this heading"></a></h1>
+  <section id="module-RandomBooleanCircuits.source.pycharcAnalysis">
+<span id="analysis"></span><h1>Analysis<a class="headerlink" href="#module-RandomBooleanCircuits.source.pycharcAnalysis" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.pycharcAnalysis.</span></span><span class="sig-name descname"><span class="pre">TruthTableAnalyser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser" title="Permalink to this definition"></a></dt>
+<dd><p>Reads in the data from csv file and provides functions for analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>String</em>) – full file path to the data csv from the boolean circuit scripts</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_count">
+<span class="sig-name descname"><span class="pre">add_comp_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.add_comp_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_count" title="Permalink to this definition"></a></dt>
+<dd><p>Adds “Comp_Count” column to dataframe containing the count of the number of active gates in the circuit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_fraction">
+<span class="sig-name descname"><span class="pre">add_comp_fraction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.add_comp_fraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_comp_fraction" title="Permalink to this definition"></a></dt>
+<dd><p>Adds “Comp_Frac” column to dataframe containing the proportion of AND gates in the gate set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_dist">
+<span class="sig-name descname"><span class="pre">add_fc_dist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.add_fc_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_dist" title="Permalink to this definition"></a></dt>
+<dd><p>Adds “FC_Dist” column to dataframe containing the number of inactive gates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_tt_dist">
+<span class="sig-name descname"><span class="pre">add_fc_tt_dist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.add_fc_tt_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.add_fc_tt_dist" title="Permalink to this definition"></a></dt>
+<dd><p>Adds “FC_TT_Dist” column to dataframe containing the hamming distance between the truth table and
+the full circuits truth table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_btw_fp">
+<span class="sig-name descname"><span class="pre">av_dist_btw_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.av_dist_btw_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_btw_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Average hamming distance between the parameters of the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of mean hamming distances between the parameters of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_fc_to_fp">
+<span class="sig-name descname"><span class="pre">av_dist_fc_to_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.av_dist_fc_to_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_dist_fc_to_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Gets average hamming distance of final population parameters to full circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby with average hamming distance for each final population.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_btw_fp">
+<span class="sig-name descname"><span class="pre">av_tt_dist_btw_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.av_tt_dist_btw_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_btw_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Average hamming distance between the truth tables of the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of mean hamming distances between the truth tables of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_fc_to_fp">
+<span class="sig-name descname"><span class="pre">av_tt_dist_fc_to_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.av_tt_dist_fc_to_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.av_tt_dist_fc_to_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Gets average hamming distance of truth tables of the final population to the full circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>DataFrame</em> – groupby with mean hamming distance for each final population.</p></li>
+<li><p><em>return:</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_2">
+<span class="sig-name descname"><span class="pre">calc_dist_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_dist_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_2" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the hamming distance between the parameters of two circuits given by the indexes in the dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_a</strong> (<em>Int</em>) – Index of the first circuit</p></li>
+<li><p><strong>index_b</strong> (<em>Int</em>) – Index of the second circuit</p></li>
+<li><p><strong>df</strong> (<em>DataFrame</em>) – dataframe for selecting circuits from subset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The hamming distance between the parameters of the two circuits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_circuit">
+<span class="sig-name descname"><span class="pre">calc_dist_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_dist_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>For a dataframe get the mean hamming distance between parameters in all circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – set of circuits to find average distance between.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean hamming distance between parameters of circuits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_group">
+<span class="sig-name descname"><span class="pre">calc_dist_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_dist_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_dist_group" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the mean hamming distance between parameters for a group of circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<em>Int</em>) – Number of inputs into the circuit, used for group identification</p></li>
+<li><p><strong>outputs</strong> (<em>List&lt;Int&gt;</em>) – List of outputs from the circuit, used for group identification</p></li>
+<li><p><strong>gates</strong> (<em>List&lt;String&gt;</em>) – List of gates in the circuit, used for group identification</p></li>
+<li><p><strong>final</strong> (<em>Boolean</em>) – Select only the final population (true) or full archive (false)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean hamming distance between the parameters of circuits in the group.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_dist_circuit">
+<span class="sig-name descname"><span class="pre">calc_max_dist_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_max_dist_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_dist_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>For a dataframe get the max hamming distance between parameters in all circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – set of circuits to find max distance between.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>max hamming distance between parameters of circuits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_tt_dist_circuit">
+<span class="sig-name descname"><span class="pre">calc_max_tt_dist_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_max_tt_dist_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_max_tt_dist_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>For a dataframe get the max hamming distance between truth tables in all circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – set of circuits to find max distance between.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>max hamming distance between the truth tables of circuits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_2">
+<span class="sig-name descname"><span class="pre">calc_tt_dist_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_tt_dist_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_2" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the hamming distance between the truth tables of two circuits given by the indexes in the dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_a</strong> (<em>Int</em>) – Index of the first circuit</p></li>
+<li><p><strong>index_b</strong> (<em>Int</em>) – Index of the second circuit</p></li>
+<li><p><strong>df</strong> (<em>DataFrame</em>) – dataframe for selecting circuits from subset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The hamming distance between the truth tables of the two circuits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_circuit">
+<span class="sig-name descname"><span class="pre">calc_tt_dist_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.calc_tt_dist_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.calc_tt_dist_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>For a dataframe get the mean hamming distance between truth tables in all circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – set of circuits to find average distance between.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean hamming distance between the truth tables of circuits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_line">
+<span class="sig-name descname"><span class="pre">circuit_graph_tt_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.circuit_graph_tt_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_line" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a line plot of circuit labels against the average truth tables distances between the full population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn line plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_max_line">
+<span class="sig-name descname"><span class="pre">circuit_graph_tt_max_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.circuit_graph_tt_max_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.circuit_graph_tt_max_line" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a line plot of circuit labels against the max truth tables distances between the full population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn line plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_distance_graph">
+<span class="sig-name descname"><span class="pre">comp_distance_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.comp_distance_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_distance_graph" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a boxplot of the component counts against the distance of circuits to the full circuit parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn box plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_size_by_tt">
+<span class="sig-name descname"><span class="pre">comp_size_by_tt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.comp_size_by_tt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.comp_size_by_tt" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a violin plot of truth table labels against the component counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn violin plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_in_fp">
+<span class="sig-name descname"><span class="pre">fc_in_fp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.fc_in_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_in_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Finds if the full circuit for each gate set is in the final population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<em>List&lt;Int&gt;</em>) – The set of inputs to the circuit, used to identify correct circuit</p></li>
+<li><p><strong>outputs</strong> (<em>List&lt;Int&gt;</em>) – The set of outputs from the circuit, used to identify correct circuit</p></li>
+<li><p><strong>gates</strong> (<em>List&lt;String&gt;</em>) – The set of gate in the circuits, used to identify correct circuit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Group by with the truth value for if the data for each circuit contains the full circuit
+in the final population</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_tt_in_fp">
+<span class="sig-name descname"><span class="pre">fc_tt_in_fp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.fc_tt_in_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_tt_in_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Checks for the full circuit truth table in the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<em>List&lt;Int&gt;</em>) – The set of inputs to the circuit, used to identify correct circuit</p></li>
+<li><p><strong>outputs</strong> (<em>List&lt;Int&gt;</em>) – The set of outputs from the circuit, used to identify correct circuit</p></li>
+<li><p><strong>gates</strong> (<em>List&lt;String&gt;</em>) – The set of gate in the circuits, used to identify correct circuit]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>DataFrame</em> – groupby of truth values for if the full circuits truth table is in the final population.</p></li>
+<li><p><em>return:</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_fc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.find_fc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc" title="Permalink to this definition"></a></dt>
+<dd><p>Returns truth value for if the full circuit is in the final population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – dataframe of the circuit to check for full circuit.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if circuit with full component count in the final population, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_fc_tt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.find_fc_tt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the truth table for the full circuit is in the final population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe to search for the full circuit.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The truth value for if the truth table of the full circuit is in the final population.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.gates_to_label">
+<span class="sig-name descname"><span class="pre">gates_to_label</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.gates_to_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.gates_to_label" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the gate set to a base 10 label and adds new column of them, “Labels”</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_archive_size">
+<span class="sig-name descname"><span class="pre">get_archive_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.get_archive_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_archive_size" title="Permalink to this definition"></a></dt>
+<dd><p>Get histogram of archive sizes for different initial circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn histogram</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_fc_tt_index">
+<span class="sig-name descname"><span class="pre">get_fc_tt_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wiring</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.get_fc_tt_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_fc_tt_index" title="Permalink to this definition"></a></dt>
+<dd><p>For a given circuit add full circuit to the dataframe and gets the index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_count</strong> (<em>Int</em>) – Number of inputs into the circuit, used for circuit identification.</p></li>
+<li><p><strong>outputs</strong> (<em>List&lt;Int&gt;</em>) – List of outputs from the circuit, used for circuit identification.</p></li>
+<li><p><strong>wiring</strong> (<em>List&lt;List&lt;Int</em><em>, </em><em>Int&gt;&gt;</em>) – List of gate input lists, used for circuit identification.</p></li>
+<li><p><strong>gates</strong> (<em>List&lt;String&gt;</em>) – List of gates in circuits, used for circuit identification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of full circuit</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_group_labels">
+<span class="sig-name descname"><span class="pre">get_group_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.get_group_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_group_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Assigns and returns a list of circuit labels for all final population members.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of labels for circuits.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_label">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.get_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.get_label" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the first label value for the given dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – dataframe to get label value from</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>first Label value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_comp_in_fp">
+<span class="sig-name descname"><span class="pre">max_comp_in_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.max_comp_in_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_comp_in_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Max components in the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of max parameters of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_dist_btw_fp">
+<span class="sig-name descname"><span class="pre">max_dist_btw_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.max_dist_btw_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_dist_btw_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Max hamming distance between the parameters of the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of max hamming distances between the parameters of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_tt_dist_btw_fp">
+<span class="sig-name descname"><span class="pre">max_tt_dist_btw_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.max_tt_dist_btw_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.max_tt_dist_btw_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Max hamming distance between the truth tables of the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of max hamming distances between the truth tables of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.median_comp_in_fp">
+<span class="sig-name descname"><span class="pre">median_comp_in_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.median_comp_in_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.median_comp_in_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Median components in the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of median parameters of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.min_comp_in_fp">
+<span class="sig-name descname"><span class="pre">min_comp_in_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.min_comp_in_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.min_comp_in_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Min components in the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of min parameters of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.missing_fc_add">
+<span class="sig-name descname"><span class="pre">missing_fc_add</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.missing_fc_add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.missing_fc_add" title="Permalink to this definition"></a></dt>
+<dd><p>Adds the full circuit with truth table to the dataframe if not already present.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.mode_comp_in_fp">
+<span class="sig-name descname"><span class="pre">mode_comp_in_fp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.mode_comp_in_fp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.mode_comp_in_fp" title="Permalink to this definition"></a></dt>
+<dd><p>Mode components in the final population</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>groupby of mode parameters of the final population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_cc_boxplot">
+<span class="sig-name descname"><span class="pre">truth_cc_boxplot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.truth_cc_boxplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_cc_boxplot" title="Permalink to this definition"></a></dt>
+<dd><p>Plots box plot of the truth labels (unique truth tables) against component counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn box plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_to_list">
+<span class="sig-name descname"><span class="pre">truth_to_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.truth_to_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.truth_to_list" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the string based truth tables to lists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_by_circuit">
+<span class="sig-name descname"><span class="pre">tt_by_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.tt_by_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_by_circuit" title="Permalink to this definition"></a></dt>
+<dd><p>scatter plot of the number of truth tables found for each circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn scatter plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_distance_graph">
+<span class="sig-name descname"><span class="pre">tt_distance_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.tt_distance_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.tt_distance_graph" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a boxplot of the component counts against the distance of circuits to the full circuit truth tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seaborn box plot</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.unique_tt">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique_tt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.unique_tt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.unique_tt" title="Permalink to this definition"></a></dt>
+<dd><p>Count of unique truth tables in the given dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – dataframe to be checked for unique truth tables.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>count of unique truth tables</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.variants_by_fc">
+<span class="sig-name descname"><span class="pre">variants_by_fc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.variants_by_fc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.variants_by_fc" title="Permalink to this definition"></a></dt>
+<dd><p>Returns truth tables violin plots for each full circuit_description truth table showing the component counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Matplotlib Axes with violin plot of the component count of versions of each circuit’s truth table found in
+the full set of runs.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ax</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table">
+<span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.pycharcAnalysis.</span></span><span class="sig-name descname"><span class="pre">get_behaviour_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#get_behaviour_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table" title="Permalink to this definition"></a></dt>
+<dd><p>Prints a fully formated latex table of truth tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df_name</strong> (<em>String</em>) – file name for csv to print truth tables from.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

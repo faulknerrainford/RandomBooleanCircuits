@@ -1,6 +1,6 @@
 from unittest import TestCase
 from RandomBooleanCircuits import RBCSystem
-from pycharc.metrics import fixed_input as fin
+from RandomBooleanCircuits import fixed_input as fin
 import numpy as np
 
 

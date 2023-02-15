@@ -7,7 +7,7 @@ from RandomBooleanCircuits import TruthTableAnalyser
 class TestTruthTableAnalyser(TestCase):
 
     def test_fc_in_fp(self):
-        analyser = TruthTableAnalyser("TestData.csv")
+        analyser = TruthTableAnalyser("TestData.csv", 4)
         analyser.add_comp_count()
         res = analyser.fc_in_fp(inputs=4, outputs='[4, 5, 6, 7]', gates="['AND', 'OR', 'OR', 'AND']")
         self.assertTrue(res.item(), "Incorrect for circuit_description")
@@ -15,7 +15,7 @@ class TestTruthTableAnalyser(TestCase):
         self.assertFalse(res.values[0], "Incorrect for full frame")
 
     def test_find_fc(self):
-        analyser = TruthTableAnalyser("TestData.csv")
+        analyser = TruthTableAnalyser("TestData.csv", 4)
         analyser.add_comp_count()
         circuit = analyser.df.loc[(analyser.df["Input_Count"] == 4) & (analyser.df["Outputs"] == '[4, 5, 6, 7]') &
                                   (analyser.df["Gates"] == "['AND', 'OR', 'OR', 'AND']")]
@@ -126,6 +126,7 @@ class TestTruthTableAnalyser(TestCase):
 
     def test_add_fc_tt_dist_2(self):
         analyser = TruthTableAnalyser("4_gate_test_data.csv")
+        analyser.missing_fc_add()
         analyser.add_fc_tt_dist()
         self.assertIn("FC_TT_Dist", analyser.df.columns, "Column not added for 4 gate output")
 
@@ -222,11 +223,6 @@ class TestTruthTableAnalyser(TestCase):
         analyser.comp_distance_graph()
         plt.show()
 
-    def test_circuit_graph(self):
-        analyser = TruthTableAnalyser("TestData.csv")
-        analyser.circuit_graph()
-        plt.show()
-
     def test_variants_by_fc(self):
         analyser = TruthTableAnalyser("TestData.csv")
         analyser.variants_by_fc()
@@ -238,11 +234,11 @@ class TestTruthTableAnalyser(TestCase):
         plt.show()
 
     def test_three_point_circuit_dist(self):
-        analyser = TruthTableAnalyser("TestData.csv")
+        analyser = TruthTableAnalyser("TestData.csv", 4)
         analyser.truth_cc_boxplot()
         plt.show()
 
     def test_tt_by_circuit(self):
-        analyser = TruthTableAnalyser("TestData.csv")
+        analyser = TruthTableAnalyser("TestData.csv", 4)
         analyser.tt_by_circuit()
         plt.show()

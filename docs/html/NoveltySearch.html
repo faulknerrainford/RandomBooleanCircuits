@@ -48,7 +48,20 @@
 <li class="toctree-l1"><a class="reference internal" href="Setup.html">Set Up</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Replication.html">Replication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Circuits.html">Circuits</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Novelty Search</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Novelty Search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem"><code class="docutils literal notranslate"><span class="pre">RBCSystem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.preprocess"><code class="docutils literal notranslate"><span class="pre">RBCSystem.preprocess()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run"><code class="docutils literal notranslate"><span class="pre">RBCSystem.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run_one"><code class="docutils literal notranslate"><span class="pre">RBCSystem.run_one()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.train"><code class="docutils literal notranslate"><span class="pre">RBCSystem.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.add_search_results"><code class="docutils literal notranslate"><span class="pre">add_search_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.circuit_search"><code class="docutils literal notranslate"><span class="pre">circuit_search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.make_subclass"><code class="docutils literal notranslate"><span class="pre">make_subclass()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#RandomBooleanCircuits.source.boolean_circuits.save_results"><code class="docutils literal notranslate"><span class="pre">save_results()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Analysis.html">Analysis</a></li>
 </ul>
 
@@ -76,8 +89,174 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="novelty-search">
-<h1>Novelty Search<a class="headerlink" href="#novelty-search" title="Permalink to this heading"></a></h1>
+  <section id="module-RandomBooleanCircuits.source.boolean_circuits">
+<span id="novelty-search"></span><h1>Novelty Search<a class="headerlink" href="#module-RandomBooleanCircuits.source.boolean_circuits" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.RBCSystem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.boolean_circuits.</span></span><span class="sig-name descname"><span class="pre">RBCSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wash_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concatenate_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_6</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_8</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_9</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_10</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_11</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_12</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_13</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_14</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_15</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_16</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_17</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_18</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_19</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_20</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuitSettings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#RBCSystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem" title="Permalink to this definition"></a></dt>
+<dd><p>System for running random boolean circuits. Circuit Settings are written as follows:</p>
+<dl class="simple">
+<dt>Input count: int</dt><dd><p>The number of input values being used, these will be labeled indexing from 0 automatically.</p>
+</dd>
+<dt>Gate descriptors: list&lt;list&lt;int, int, int, int&gt;&gt;</dt><dd><p>The int name of the two inputs followed by the gate type and the label for the gate output.</p>
+</dd>
+<dt>Output values: list&lt;ints&gt;</dt><dd><p>The list of int names of values to be output.</p>
+</dd>
+</dl>
+<p>In this version we list gate types as follows:</p>
+<dl class="simple">
+<dt>0</dt><dd><p>Buffer input 1</p>
+</dd>
+<dt>1</dt><dd><p>AND gate</p>
+</dd>
+<dt>2</dt><dd><p>NAND gate</p>
+</dd>
+<dt>3</dt><dd><p>OR gate</p>
+</dd>
+<dt>4</dt><dd><p>NOR gate</p>
+</dd>
+<dt>5</dt><dd><p>XOR gate</p>
+</dd>
+<dt>6</dt><dd><p>NXOR gate</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_0</strong> (<em>int</em>) – indicates if gate 0 is active or a buffer for its first input_vals</p></li>
+<li><p><strong>gate_1</strong> (<em>int</em>) – indicates if gate 1 is active or a buffer for its first input_vals</p></li>
+<li><p><strong>gate_2</strong> (<em>int</em>) – indicates if gate 2 is active or a buffer for its first input_vals</p></li>
+<li><p><strong>gate_3</strong> (<em>int</em>) – indicates if gate 3 is active or a buffer for its first input_vals</p></li>
+<li><p><strong>circuitSettings</strong> (<em>list&lt;int</em><em>, </em><em>list&lt;list&lt;int&gt;&gt;</em><em>, </em><em>list&lt;int&gt;&gt;</em>) – The settings for the circuit_description, [Input count, Gate descriptions, Output values]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.RBCSystem.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#RBCSystem.preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.preprocess" title="Permalink to this definition"></a></dt>
+<dd><p>No preprocessing, returns input values without modification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_vals</strong> (<em>numpy.NDArray</em>) – The input values which might normally be processed</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input values without modification</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.NDArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#RBCSystem.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run" title="Permalink to this definition"></a></dt>
+<dd><p>Currently the same as run_one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputs</strong> (<em>numpy.NDArray</em>) – array of input values</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of circuit_description.run_single.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run_one">
+<span class="sig-name descname"><span class="pre">run_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#RBCSystem.run_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.run_one" title="Permalink to this definition"></a></dt>
+<dd><p>Performs a single run of the system on a single set of input values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_vals</strong> (<em>numpy.NDArray</em>) – array of input values</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of circuit_description.run_single.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.RBCSystem.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">floating</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#RBCSystem.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.RBCSystem.train" title="Permalink to this definition"></a></dt>
+<dd><p>Unused in this instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.add_search_results">
+<span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.boolean_circuits.</span></span><span class="sig-name descname"><span class="pre">add_search_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#add_search_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.add_search_results" title="Permalink to this definition"></a></dt>
+<dd><p>Convert search population metrics and final population values to dataframe rows with circuit_description description
+and parameter settings as well as the truth table output and whether a circuit_description is in the final
+population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<em>list&lt;Strings&gt;</em>) – The text based list of “AND” and “OR” values to describe the different gates in the circuit_description.</p></li>
+<li><p><strong>results</strong> (<em>MicrobialGA</em>) – The run MicrobialGA with its final population and general population metrics.</p></li>
+<li><p><strong>dataframe</strong> (<em>pandas.DataFrame</em>) – The dataframe to add the set of results to. Must already be established with correct columns - [“Input_Count”,
+“Outputs”, “Wiring”, “Gates”, “Gate_Activations”, “Truth_Table”, “Final_Population”]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataframe with the new data added.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.circuit_search">
+<span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.boolean_circuits.</span></span><span class="sig-name descname"><span class="pre">circuit_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#circuit_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.circuit_search" title="Permalink to this definition"></a></dt>
+<dd><p>Takes a text based description of the gates in the circuit_description and sets up the circuit_description settings
+before generating a search object for it using MicrobialGA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> (<em>list&lt;Strings&gt;</em>) – The list of “AND” and “OR” gates to be implemented in the existing wiring.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A search object with correct circuit_description and system call.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MicrobialGA</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.make_subclass">
+<span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.boolean_circuits.</span></span><span class="sig-name descname"><span class="pre">make_subclass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#make_subclass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.make_subclass" title="Permalink to this definition"></a></dt>
+<dd><p>Dynamic subclassing to define different circuits for multiple runs in the same script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>circuit</strong> (<em>list&lt;int</em><em>, </em><em>list&lt;list&lt;int&gt;&gt;</em><em>, </em><em>list&lt;int&gt;&gt;</em>) – The circuitSetting for the circuit_description: [input_count, gate_descriptors, output_values]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new subclass of GAIndividual with the correct circuit_description settings and system function call.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RBCIndividual</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RandomBooleanCircuits.source.boolean_circuits.save_results">
+<span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.boolean_circuits.</span></span><span class="sig-name descname"><span class="pre">save_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/boolean_circuits.html#save_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.boolean_circuits.save_results" title="Permalink to this definition"></a></dt>
+<dd><p>Save the dataframe of results to a csv file with the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataframe</strong> (<em>pandas.DataFrame</em>) – The dataframe of results.</p></li>
+<li><p><strong>filename</strong> (<em>String</em>) – The filename and path to be used to save the file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

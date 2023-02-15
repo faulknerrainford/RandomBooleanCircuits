@@ -35,6 +35,9 @@ The dataframes containing repeated behaviours for both the 6 and 12 gate systems
 - 6_var_group_df.csv
 - 12_var_group_df.csv
 
+In both cases the larger 12 gate system data is stored compressed in .zip and will need to be extracted before they can
+be used for analysis
+
 Analysis
 ---------
 

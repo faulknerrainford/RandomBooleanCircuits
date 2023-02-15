@@ -20,11 +20,12 @@ class TruthTableAnalyser:
         full file path to the data csv from the boolean circuit scripts
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename, gate_count=0):
         self.df = pd.read_csv(filename)
         self.truth_to_list()
         # self.missing_fc_add()
         self.gates_to_label()
+        self.gate_count = gate_count
 
     def fc_in_fp(self, inputs=None, outputs=None, gates=None):
         """
@@ -57,13 +58,12 @@ class TruthTableAnalyser:
             group = group.loc[group["Gates"] == gates]
         return group.groupby(["Input_Count", "Outputs", "Gates", "Wiring"]).apply(self.find_fc)
 
-    @staticmethod
-    def find_fc(df):
+    def find_fc(self, df):
         """
         Returns truth value for if the full circuit is in the final population.
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         df  :   DataFrame
             dataframe of the circuit to check for full circuit.
 
@@ -72,18 +72,17 @@ class TruthTableAnalyser:
         Boolean
             true if circuit with full component count in the final population, false otherwise.
         """
-        if df.loc[(df["Comp_Count"] == GATES), "Final_Population"].item():
+        if df.loc[(df["Comp_Count"] == self.gate_count), "Final_Population"].item():
             return True
         else:
             return False
 
-    @staticmethod
-    def find_fc_tt(df):
+    def find_fc_tt(self, df):
         """
         Checks if the truth table for the full circuit is in the final population.
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         df  :   DataFrame
             Dataframe to search for the full circuit.
 
@@ -92,7 +91,7 @@ class TruthTableAnalyser:
         Boolean
             The truth value for if the truth table of the full circuit is in the final population.
         """
-        if df.loc[(df["Comp_Count"] == GATES), "Final_Population"].item():
+        if df.loc[(df["Comp_Count"] == self.gate_count), "Final_Population"].item():
             return True
         else:
             tt = df.loc[(df["Comp_Count"] == 4), "Truth_Table"].item()
@@ -784,7 +783,7 @@ class TruthTableAnalyser:
 
 def get_behaviour_table(df_name):
     """
-    Prints a fully formated latex table of truth tables.
+    Prints a fully formatted latex table of truth tables.
 
     Parameters
     ----------

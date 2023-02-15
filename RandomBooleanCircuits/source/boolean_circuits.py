@@ -23,23 +23,24 @@ Describes the mutable parameters of the system being searched.
 
 Parameters
 ----------
-gate_0  :   IntGAParameterSpec(0,1)
+gate_0  :  IntGAParameterSpec(0,1)
     The gate is active (1) or inactive (0)
-gate_1  :   IntGAParameterSpec(0,1)
+gate_1  :  IntGAParameterSpec(0,1)
     The gate is active (1) or inactive (0)
-gate_2  :   IntGAParameterSpec(0,1)
+gate_2  :  IntGAParameterSpec(0,1)
     The gate is active (1) or inactive (0)
-gate_3  :   IntGAParameterSpec(0,1)
+gate_3  :  IntGAParameterSpec(0,1)
     The gate is active (1) or inactive (0)
+    
 """
 RBCParamSpec: Dict[str, GAParameterSpec] = {
     'gate_0': IntGAParameterSpec(0, 1),
     'gate_1': IntGAParameterSpec(0, 1),
     'gate_2': IntGAParameterSpec(0, 1),
-    'gate_3': IntGAParameterSpec(0, 1),
+    'gate_3': IntGAParameterSpec(0, 1)
 }
 
-GATES = 12
+GATES = 4
 WIRING = [[0, 1, 0, 4], [2, 3, 0, 5], [0, 4, 0, 6], [1, 5, 0, 7], [2, 6, 0, 8], [3, 7, 0, 9], [4, 8, 0, 10],
           [5, 9, 0, 11], [6, 10, 0, 12], [7, 11, 0, 13], [8, 12, 0, 14], [9, 13, 0, 15], [10, 14, 0, 16],
           [11, 15, 0, 17], [12, 16, 0, 18], [13, 17, 0, 19], [14, 18, 0, 20], [15, 19, 0, 21], [16, 20, 0, 22],
@@ -50,6 +51,7 @@ WIRING = [[0, 1, 0, 4], [2, 3, 0, 5], [0, 4, 0, 6], [1, 5, 0, 7], [2, 6, 0, 8], 
 class RBCSystem(System):
     """
     System for running random boolean circuits. Circuit Settings are written as follows:
+
     Input count: int
         The number of input values being used, these will be labeled indexing from 0 automatically.
     Gate descriptors: list<list<int, int, int, int>>
@@ -58,13 +60,21 @@ class RBCSystem(System):
         The list of int names of values to be output.
 
     In this version we list gate types as follows:
-    0   -   Buffer input 1
-    1   -   AND gate
-    2   -   NAND gate
-    3   -   OR gate
-    4   -   NOR gate
-    5   -   XOR gate
-    6   -   NXOR gate
+
+    0
+        Buffer input 1
+    1
+        AND gate
+    2
+        NAND gate
+    3
+        OR gate
+    4
+        NOR gate
+    5
+        XOR gate
+    6
+        NXOR gate
 
     Parameters
     ----------
@@ -78,28 +88,13 @@ class RBCSystem(System):
         indicates if gate 3 is active or a buffer for its first input_vals
     circuitSettings : list<int, list<list<int>>, list<int>>
         The settings for the circuit_description, [Input count, Gate descriptions, Output values]
+
     """
+
     gate_0: int = 1
     gate_1: int = 1
     gate_2: int = 1
     gate_3: int = 1
-    gate_4: int = 1
-    gate_5: int = 1
-    gate_6: int = 1
-    gate_7: int = 1
-    gate_8: int = 1
-    gate_9: int = 1
-    gate_10: int = 1
-    gate_11: int = 1
-    gate_12: int = 1
-    gate_13: int = 1
-    gate_14: int = 1
-    gate_15: int = 1
-    gate_16: int = 1
-    gate_17: int = 1
-    gate_18: int = 1
-    gate_19: int = 1
-    gate_20: int = 1
     circuitSettings: list = None
 
     def __post_init__(self):
@@ -131,13 +126,7 @@ class RBCSystem(System):
 
         """
         return self.circuit.run_single(input_vals, ''.join([str(e) for e in [self.gate_0, self.gate_1, self.gate_2,
-                                                                             self.gate_3, self.gate_4, self.gate_5,
-                                                                             self.gate_6, self.gate_7, self.gate_8,
-                                                                             self.gate_9, self.gate_10, self.gate_11,
-                                                                             self.gate_12, self.gate_13, self.gate_14,
-                                                                             self.gate_15, self.gate_16, self.gate_17,
-                                                                             self.gate_18, self.gate_19,
-                                                                             self.gate_20]]))
+                                                                             self.gate_3]]))
 
     def run(self, inputs: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:
         """
@@ -154,12 +143,7 @@ class RBCSystem(System):
 
         """
         return self.circuit.run_single(inputs, ''.join([str(e) for e in [self.gate_0, self.gate_1, self.gate_2,
-                                                                         self.gate_3, self.gate_4, self.gate_5,
-                                                                         self.gate_6, self.gate_7, self.gate_8,
-                                                                         self.gate_9, self.gate_10, self.gate_11,
-                                                                         self.gate_12, self.gate_13, self.gate_14,
-                                                                         self.gate_15, self.gate_16, self.gate_17,
-                                                                         self.gate_18, self.gate_19, self.gate_20]]))
+                                                                         self.gate_3]]))
 
     def preprocess(self, input_vals: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:
         """
@@ -207,24 +191,7 @@ def make_subclass(circuit):
                              gate_0=self['gate_0'],
                              gate_1=self['gate_1'],
                              gate_2=self['gate_2'],
-                             gate_3=self['gate_3'],
-                             gate_4=self['gate_4'],
-                             gate_5=self['gate_5'],
-                             gate_6=self['gate_6'],
-                             gate_7=self['gate_7'],
-                             gate_8=self['gate_8'],
-                             gate_9=self['gate_9'],
-                             gate_10=self['gate_10'],
-                             gate_11=self['gate_11'],
-                             gate_12=self['gate_12'],
-                             gate_13=self['gate_13'],
-                             gate_14=self['gate_14'],
-                             gate_15=self['gate_15'],
-                             gate_16=self['gate_16'],
-                             gate_17=self['gate_17'],
-                             gate_18=self['gate_18'],
-                             gate_19=self['gate_19'],
-                             gate_20=self['gate_20']
+                             gate_3=self['gate_3']
                              )  # Or whatever instantiation your system needs
 
     return RBCIndividual
