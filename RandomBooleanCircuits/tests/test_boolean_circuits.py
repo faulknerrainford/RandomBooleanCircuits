@@ -1,3 +1,9 @@
+"""
+:author: Penn Faulkner Rainford
+:license: GPL v3
+:copyright: 2022-2023
+"""
+
 from unittest import TestCase
 
 from RandomBooleanCircuits import circuit_search, add_search_results

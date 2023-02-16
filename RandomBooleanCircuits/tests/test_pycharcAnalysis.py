@@ -1,3 +1,9 @@
+"""
+:author: Penn Faulkner Rainford
+:license: GPL v3
+:copyright: 2022-2023
+"""
+
 from unittest import TestCase
 import matplotlib.pyplot as plt
 
@@ -163,7 +169,8 @@ class TestTruthTableAnalyser(TestCase):
         circuit = analyser.df.loc[(analyser.df["Input_Count"] == 4) & (analyser.df["Outputs"] == '[4, 5, 6, 7]') &
                                   (analyser.df["Gates"] == "['AND', 'OR', 'OR', 'AND']") &
                                   (analyser.df["Final_Population"])]
-        self.assertEqual(4.0, analyser.calc_max_dist_circuit(circuit), "Incorrect for single circuit_description final pop")
+        self.assertEqual(4.0, analyser.calc_max_dist_circuit(circuit),
+                         "Incorrect for single circuit_description final pop")
         circuit = analyser.df.loc[(analyser.df["Input_Count"] == 4) & (analyser.df["Outputs"] == '[4, 5, 6, 7]') &
                                   (analyser.df["Gates"] == "['AND', 'OR', 'OR', 'AND']")]
         self.assertEqual(4.0, analyser.calc_max_dist_circuit(circuit),
@@ -199,7 +206,8 @@ class TestTruthTableAnalyser(TestCase):
         circuit = analyser.df.loc[(analyser.df["Input_Count"] == 4) & (analyser.df["Outputs"] == '[4, 5, 6, 7]') &
                                   (analyser.df["Gates"] == "['AND', 'OR', 'AND', 'AND']") &
                                   (analyser.df["Final_Population"])]
-        self.assertEqual(0.0, analyser.calc_tt_dist_circuit(circuit), "Incorrect for single circuit_description final pop")
+        self.assertEqual(0.0, analyser.calc_tt_dist_circuit(circuit),
+                         "Incorrect for single circuit_description final pop")
         circuit = analyser.df.loc[(analyser.df["Input_Count"] == 4) & (analyser.df["Outputs"] == '[4, 5, 6, 7]') &
                                   (analyser.df["Gates"] == "['AND', 'OR', 'AND', 'AND']")]
         self.assertAlmostEqual(2.508333, analyser.calc_tt_dist_circuit(circuit), 5,

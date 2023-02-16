@@ -1,6 +1,11 @@
 from unittest import TestCase
 from RandomBooleanCircuits import CircuitExplorer
 
+"""
+:author: Penn Faulkner Rainford
+:license: GPL v3
+:copyright: 2022-2023
+"""
 
 class TestCircuitExplorer(TestCase):
     def test_run(self):

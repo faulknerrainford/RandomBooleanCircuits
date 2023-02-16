@@ -1,3 +1,8 @@
+"""
+:author: Penn Faulkner Rainford
+:license: GPL v3
+:copyright: 2022-2023
+"""
 
 from RandomBooleanCircuits import CircuitExplorer
 from RandomBooleanCircuits import fixed_input as fin

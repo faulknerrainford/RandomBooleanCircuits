@@ -19,3 +19,7 @@ seaborn = "^0.12.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[project.urls]
+"Homepage" = "https://github.com/faulknerrainford/RandomBooleanCircuits"
+"Documentation" = "https://faulknerrainford.github.io/RandomBooleanCircuits/html/index.html"
