@@ -124,9 +124,20 @@
              
   <section id="module-RandomBooleanCircuits.source.pycharcAnalysis">
 <span id="analysis"></span><h1>Analysis<a class="headerlink" href="#module-RandomBooleanCircuits.source.pycharcAnalysis" title="Permalink to this heading"></a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Penn Faulkner Rainford</p>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>GPL v3</p>
+</dd>
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2022-2023</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.pycharcAnalysis.</span></span><span class="sig-name descname"><span class="pre">TruthTableAnalyser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.pycharcAnalysis.</span></span><span class="sig-name descname"><span class="pre">TruthTableAnalyser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser" title="Permalink to this definition"></a></dt>
 <dd><p>Reads in the data from csv file and provides functions for analysis</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -449,7 +460,7 @@ in the final population</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_fc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.find_fc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">find_fc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.find_fc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc" title="Permalink to this definition"></a></dt>
 <dd><p>Returns truth value for if the full circuit is in the final population.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -466,7 +477,7 @@ in the final population</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_fc_tt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.find_fc_tt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">find_fc_tt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#TruthTableAnalyser.find_fc_tt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt" title="Permalink to this definition"></a></dt>
 <dd><p>Checks if the truth table for the full circuit is in the final population.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -729,7 +740,7 @@ the full set of runs.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table">
 <span class="sig-prename descclassname"><span class="pre">RandomBooleanCircuits.source.pycharcAnalysis.</span></span><span class="sig-name descname"><span class="pre">get_behaviour_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RandomBooleanCircuits/source/pycharcAnalysis.html#get_behaviour_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table" title="Permalink to this definition"></a></dt>
-<dd><p>Prints a fully formated latex table of truth tables.</p>
+<dd><p>Prints a fully formatted latex table of truth tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>df_name</strong> (<em>String</em>) – file name for csv to print truth tables from.</p>

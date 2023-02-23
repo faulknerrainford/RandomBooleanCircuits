@@ -74,7 +74,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for RandomBooleanCircuits.source.pycharcAnalysis</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:author: Penn Faulkner Rainford</span>
+<span class="sd">:license: GPL v3</span>
+<span class="sd">:copyright: 2022-2023</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -96,11 +102,12 @@
 <span class="sd">        full file path to the data csv from the boolean circuit scripts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">gate_count</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">truth_to_list</span><span class="p">()</span>
         <span class="c1"># self.missing_fc_add()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gates_to_label</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span> <span class="o">=</span> <span class="n">gate_count</span>
 
 <div class="viewcode-block" id="TruthTableAnalyser.fc_in_fp"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.fc_in_fp">[docs]</a>    <span class="k">def</span> <span class="nf">fc_in_fp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -133,8 +140,7 @@
             <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;Gates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gates</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">group</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Input_Count&quot;</span><span class="p">,</span> <span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="s2">&quot;Wiring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_fc</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TruthTableAnalyser.find_fc"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">find_fc</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="TruthTableAnalyser.find_fc"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc">[docs]</a>    <span class="k">def</span> <span class="nf">find_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns truth value for if the full circuit is in the final population.</span>
 
@@ -148,13 +154,12 @@
 <span class="sd">        Boolean</span>
 <span class="sd">            true if circuit with full component count in the final population, false otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">GATES</span><span class="p">),</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">),</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="TruthTableAnalyser.find_fc_tt"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">find_fc_tt</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="TruthTableAnalyser.find_fc_tt"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.TruthTableAnalyser.find_fc_tt">[docs]</a>    <span class="k">def</span> <span class="nf">find_fc_tt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if the truth table for the full circuit is in the final population.</span>
 
@@ -168,7 +173,7 @@
 <span class="sd">        Boolean</span>
 <span class="sd">            The truth value for if the truth table of the full circuit is in the final population.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">GATES</span><span class="p">),</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_count</span><span class="p">),</span> <span class="s2">&quot;Final_Population&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Comp_Count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;Truth_Table&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
@@ -860,7 +865,7 @@
 
 <div class="viewcode-block" id="get_behaviour_table"><a class="viewcode-back" href="../../../Analysis.html#RandomBooleanCircuits.source.pycharcAnalysis.get_behaviour_table">[docs]</a><span class="k">def</span> <span class="nf">get_behaviour_table</span><span class="p">(</span><span class="n">df_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Prints a fully formated latex table of truth tables.</span>
+<span class="sd">    Prints a fully formatted latex table of truth tables.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

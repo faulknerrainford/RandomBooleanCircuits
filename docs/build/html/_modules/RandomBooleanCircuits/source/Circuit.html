@@ -74,7 +74,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for RandomBooleanCircuits.source.Circuit</h1><div class="highlight"><pre>
-<span></span><span class="c1"># noinspection DuplicatedCode</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:author: Penn Faulkner Rainford</span>
+<span class="sd">:license: GPL v3</span>
+<span class="sd">:copyright: 2022-2023</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># noinspection DuplicatedCode</span>
 <div class="viewcode-block" id="Circuit"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.Circuit.Circuit">[docs]</a><span class="k">class</span> <span class="nc">Circuit</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Boolean circuits implemented using the representation from: Miller, Julian F., and Others. 1999.</span>
@@ -126,7 +132,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gate_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">circuitString</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Circuit.run"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.Circuit.Circuit.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Circuit.run"><a class="viewcode-back" href="../../../Circuits.html#RandomBooleanCircuits.source.Circuit.Circuit.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Operates the circuit_description on a given set of inputs and returns a list of values from the listed outputs.</span>
 
@@ -141,7 +147,7 @@
 <span class="sd">        List&lt;Integer&gt;</span>
 <span class="sd">            List of 0 or 1 values read from the given list of outputs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
             <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">))]</span>
         <span class="n">input_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)):</span>
